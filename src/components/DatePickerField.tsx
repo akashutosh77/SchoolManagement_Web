@@ -13,6 +13,7 @@ export const DatePickerField: React.FC<IDatePickerProps> = ({
   label,
   ...rest
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [field, meta, helper] = useField(rest.name);
   const { setValue } = helper;
   const { value } = field;
