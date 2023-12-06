@@ -44,3 +44,37 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Commands used in Project
+
+## To view and share your changes at a temporary preview URL,
+-  npm run build   
+-  firebase hosting:channel:deploy <any random string> to create and deploy to a preview channel
+
+
+## To depoy your changes in https://schoolkamanager.web.app/ use the below commands
+  ## Either
+- npm run build
+- firebase deploy --only hosting
+  ## OR
+- push your local branch that contain the changes
+- Raise the pull request to merge the changes in branch called master
+- Once the changes are merged in master, those will reflect in  https://schoolkamanager.web.app/
+
+
+
+
+
