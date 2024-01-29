@@ -90,3 +90,8 @@ export interface ISelectFieldProps {
   error?: boolean;
   helperText?: string
 }
+
+export interface IUploadButtonProps {
+  component: string;
+  variant: TVariant
+}
