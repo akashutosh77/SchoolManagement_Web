@@ -95,3 +95,11 @@ export interface IUploadButtonProps {
   component: string;
   variant: TVariant
 }
+
+export interface IBackgroundProps {
+  children: React.ReactNode;
+}
+
+export interface IDrawerAppBarProps {
+  window?: () => Window;
+}

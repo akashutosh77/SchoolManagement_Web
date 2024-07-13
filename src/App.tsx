@@ -1,27 +1,20 @@
-import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import {UploadButton} from './components/UploadButton';
+import React from "react";
+import { UploadButton } from "./components/UploadButton";
+import { ThemeProvider } from "@mui/material";
+import { muiTheme } from "./styles/muiTheme";
+import { Background } from "./components/Background";
+import { DrawerAppBar } from "./components/DrawerAppBar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <UploadButton/>
-        <p>
-          Updates in code.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={muiTheme}>
+      <Background>
+        <DrawerAppBar />
+        <div style={{ marginTop: "100px" }}>
+          <UploadButton />
+        </div>
+      </Background>
+    </ThemeProvider>
   );
 }
 
