@@ -1,5 +1,5 @@
 import React from "react";
-import { UploadButton } from "./components/UploadButton";
+// import { UploadButton } from "./components/UploadButton";
 import { ThemeProvider } from "@mui/material";
 import { muiTheme } from "./styles/muiTheme";
 import { Background } from "./components/Background";

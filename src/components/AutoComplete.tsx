@@ -1,4 +1,4 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { useField } from 'formik';
 import { IReusableAutocompleteProps } from './IComponents';
