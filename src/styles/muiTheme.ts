@@ -1,10 +1,11 @@
 import { createTheme } from "@mui/material";
 
+const drawerWidth = 240;
 export const muiTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#9c27b0",
+      main: "#0397B5",
     },
     secondary: {
       main: "#f49833",
@@ -12,11 +13,35 @@ export const muiTheme = createTheme({
   },
   typography: {},
   components: {
-    // Name of the component
     MuiButtonBase: {
       defaultProps: {
-        // The props to change the default for.
-        disableRipple: false, // No more ripple, on the whole application 💣!
+        disableRipple: false,
+      },
+    },
+
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: "none",
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+          },
+          [theme.breakpoints.up("sm")]: {
+            display: "block",
+          },
+        }),
+        paper: {
+          backgroundColor:"#0397B5",
+          color:"white",
+          boxSizing: "border-box",
+          width: drawerWidth,
+        },
       },
     },
   },

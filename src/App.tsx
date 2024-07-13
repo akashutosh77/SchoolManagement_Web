@@ -11,7 +11,7 @@ function App() {
       <Background>
         <DrawerAppBar />
         <div style={{ marginTop: "100px" }}>
-          <UploadButton />
+          {/* <UploadButton /> */}
         </div>
       </Background>
     </ThemeProvider>

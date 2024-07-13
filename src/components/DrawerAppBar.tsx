@@ -17,7 +17,7 @@ import { IDrawerAppBarProps } from './IComponents';
 
 
 
-const drawerWidth = 240;
+
 const navItems = ['Home', 'About', 'Contact'];
 
 export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) => {
@@ -51,7 +51,7 @@ export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) =
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{boxShadow:"none"}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -67,7 +67,7 @@ export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) =
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            School Logo
+            School Name
           </Typography>
           <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             {navItems.map((item) => (
@@ -86,10 +86,6 @@ export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) =
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
           {drawer}
