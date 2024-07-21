@@ -10,6 +10,7 @@ import {
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers";
 import { TVariant, TSelectFieldChange } from "../TCommonUtils";
+import { MRT_TableInstance } from "material-react-table";
 
 export interface IReusableAutocompleteProps {
   label: string;
@@ -44,6 +45,7 @@ export interface IConfirmationDialogProps {
 }
 
 export interface ICustomButtonProps {
+  name: string;
   children: string | React.ReactNode;
   variant: TVariant;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -71,7 +73,9 @@ export interface IDatePickerProps {
 
 export interface IInputFieldProps {
   name: string;
+  label: string;
   type?: React.HTMLInputTypeAttribute;
+  required?: boolean;
 }
 interface IData {
   id: number | string;
@@ -102,4 +106,8 @@ export interface IBackgroundProps {
 
 export interface IDrawerAppBarProps {
   window?: () => Window;
+}
+
+export interface IMaterialReactTableFieldProps {
+  table: MRT_TableInstance<any>
 }

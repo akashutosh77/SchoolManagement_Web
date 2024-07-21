@@ -22,4 +22,5 @@ export const CustomButton: React.FC<ICustomButtonProps> = ({
         {children}
         </Button>
   );
+
 };
