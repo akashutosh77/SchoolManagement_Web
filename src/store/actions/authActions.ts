@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials: { email: string; password: string }, { dispatch, rejectWithValue }) => {
     try {
-      const response = await axios.post(`${base_url}/getLoginDetails`, credentials);
+      const response = await axios.get(`${base_url}/getLoginDetails`, {params: credentials});
       const user = response.data[0];
       dispatch(setUser(user));
       return user;
