@@ -1,69 +1,34 @@
-import React from 'react';
-import { Container, Box, Typography } from '@mui/material';
-import { Formik, Form} from 'formik';
-import * as Yup from 'yup';
-import { InputField } from '../../components/InputField';
-import { CustomButton } from '../../components/CustomButton';
+import React, { useState } from 'react';
+import { Container, Box, Typography, Button } from '@mui/material';
+import GoogleSignup from './googleSignup';
+import EmailPasswordSignup from './emailPasswordSignup';
+import { selectUser } from '../../store/slices/authSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
+const Signup: React.FC = () => {
+  const [useGoogle, setUseGoogle] = useState(false);
+  const loggedInUser = useSelector<RootState>(selectUser);
 
-
-const validationSchema = Yup.object({
-  name: Yup.string().required('Name is required'),
-  email: Yup.string().email('Invalid email address').required('Email is required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-});
-
-
-
-
-
-export const Signup: React.FC = () => {
+  console.log('the logged in user is', loggedInUser);
   return (
     <Container maxWidth="sm">
       <Box>
         <Typography variant="h5" gutterBottom>
           Registration Form
         </Typography>
-        <Formik
-          initialValues={{ name: '', email: '', password: '' }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-        >
-          <Form>
-            <InputField
-              label="Name"
-              name="name"
-              required
-            />
-            <InputField
-              label="Email"
-              name="email"
-              type="email"
-              required
-            />
-            <InputField
-              label="Password"
-              name="password"
-              type="password"
-              required
-            />
-            <CustomButton
-             name="register"
-              variant="contained"
-              onClick={(e)=>{
-                alert(e)
-              }}
-              fullWidth
-            >
-              Register
-            </CustomButton>
-          </Form>
-        </Formik>
+        <Box mb={2}>
+          <Button variant="contained" onClick={() => setUseGoogle(false)} fullWidth>
+            Register with Email and Password
+          </Button>
+          <Button variant="outlined" onClick={() => setUseGoogle(true)} fullWidth>
+            Register with Google
+          </Button>
+        </Box>
+        {useGoogle ? <GoogleSignup /> : <EmailPasswordSignup />}
       </Box>
     </Container>
   );
 };
 
-
+export default Signup;

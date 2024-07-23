@@ -3,6 +3,8 @@ import { Idrpdown } from "../ICommonUtils";
 import { Breakpoint } from "@mui/system";
 import {
   ButtonPropsSizeOverrides,
+  TextFieldPropsSizeOverrides,
+  TextFieldVariants,
 } from "@mui/material";
 import { OverridableStringUnion } from "@mui/types";
 import {
@@ -48,10 +50,11 @@ export interface ICustomButtonProps {
   name: string;
   children: string | React.ReactNode;
   variant: TVariant;
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   fullWidth?: boolean;
   customStyle?: object;
   disabled?: boolean;
+  type?: "submit" | "reset" | "button" | undefined;
   size?: OverridableStringUnion<
     "small" | "medium" | "large",
     ButtonPropsSizeOverrides
@@ -76,6 +79,12 @@ export interface IInputFieldProps {
   label: string;
   type?: React.HTMLInputTypeAttribute;
   required?: boolean;
+  variant?: TextFieldVariants | undefined;
+  autoComplete?: string;
+  size?:
+    | OverridableStringUnion<"small" | "medium", TextFieldPropsSizeOverrides>
+    | undefined;
+  fullWidth?: boolean | undefined;
 }
 interface IData {
   id: number | string;
@@ -90,14 +99,14 @@ export interface ISelectFieldProps {
   size?: "small" | "medium";
   required?: boolean;
   fullWidth?: boolean;
-  disabled?:boolean;
+  disabled?: boolean;
   error?: boolean;
-  helperText?: string
+  helperText?: string;
 }
 
 export interface IUploadButtonProps {
   component: string;
-  variant: TVariant
+  variant: TVariant;
 }
 
 export interface IBackgroundProps {
@@ -109,5 +118,5 @@ export interface IDrawerAppBarProps {
 }
 
 export interface IMaterialReactTableFieldProps {
-  table: MRT_TableInstance<any>
+  table: MRT_TableInstance<any>;
 }

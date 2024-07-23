@@ -14,7 +14,7 @@ export const CustomButton: React.FC<ICustomButtonProps> = ({
         size={rest?.size || "small"}
         variant={variant}
         sx={{ ...Styles.customButton, ...rest.customStyle }}
-        onClick={(e) => onClick(e)}
+        onClick={onClick}
         fullWidth={rest?.fullWidth || false}
         disabled = {rest?.disabled || false}
         {...rest}

@@ -7,6 +7,7 @@ import { DrawerAppBar } from "./components/DrawerAppBar";
 import { fetchData } from "./services/masterService";
 // import { Signup } from "./public/login/signup";
 import AppRoutes from "./routes/appRoutes";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   const [data, setData] = useState([]);
@@ -39,8 +40,10 @@ function App() {
         <div style={{ marginTop: "80px" }}>
           {/* <UploadButton /> */}
           {/* <Signup></Signup> */}
-          <Container>
-            <AppRoutes />
+          <Container maxWidth="lg">
+            <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+              <AppRoutes />
+            </GoogleOAuthProvider>
           </Container>
         </div>
       </Background>

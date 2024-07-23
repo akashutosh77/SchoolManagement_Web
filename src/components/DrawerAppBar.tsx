@@ -69,7 +69,7 @@ export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) =
           >
             School Name
           </Typography>
-          <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+          <Box sx={{ display: { xs: 'block', sm: 'block' } }}>
             {navItems.map((item) => (
               <Button key={item} sx={{ color: '#fff' }}>
                 {item}

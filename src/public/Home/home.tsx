@@ -1,4 +1,4 @@
-import { Grid, Box } from "@mui/material";
+import { Grid} from "@mui/material";
 import React from "react";
 import { HomeCarousel } from "./homeCarousel";
 import { Mission } from "./mission";
