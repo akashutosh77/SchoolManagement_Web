@@ -8,7 +8,20 @@ const base_url = process.env.REACT_APP_BASE_URL;
 //   const response = await axios.post(`${base_url}/getLoginDetails`, { email, password });
 //   return response;
 // };
-
+// Function to fetch Google user info
+// export const fetchGoogleUserInfo = async (accessToken: string) => {
+//   try {
+//     const response = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching Google user info:", error);
+//     throw error;
+//   }
+// };
 export const forgotPassword = async (email: string) => {
   const response = await axios.post('/api/forgotPassword', { email });
   return response;

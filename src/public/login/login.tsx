@@ -8,7 +8,10 @@ import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/authSlice";
-import { loginUser } from "../../store/actions/authActions";
+import {
+  loginUser,
+  loginUserWithGoogle,
+} from "../../store/actions/authActions";
 import { AppDispatch } from "../../store";
 
 
@@ -16,25 +19,42 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => console.log(tokenResponse),
-    onError: (errorResponse) => console.log(errorResponse),
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      try {
+        dispatch(loginUserWithGoogle(tokenResponse.access_token)).then(
+          (result) => {
+            console.log("the result is", result);
+            if (result.meta.requestStatus === "fulfilled") {
+              console.log("login is a success");
+              navigate("/signup"); // Redirect to the dashboard or another page
+            } else {
+              alert("Login failed. Please check your email and password.");
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Error fetching Google user info:", error);
+      }
+    },
+    onError: (errorResponse) => {
+      console.error("Google login error", errorResponse);
+    },
   });
   const handleGoogleLogin = () => {
     googleLogin();
   };
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
-
-        dispatch(loginUser(values)).then((result)=>{
-          console.log('the result is', result);
-          if (result.meta.requestStatus === 'fulfilled') {
-            console.log('login is a success');
-            navigate('/signup'); // Redirect to the dashboard or another page
-          } else {
-            alert('Login failed. Please check your email and password.');
-          }
-        });
-      
+      dispatch(loginUser(values)).then((result) => {
+        console.log("the result is", result);
+        if (result.meta.requestStatus === "fulfilled") {
+          console.log("login is a success");
+          navigate("/signup"); // Redirect to the dashboard or another page
+        } else {
+          alert("Login failed. Please check your email and password.");
+        }
+      });
     } catch (error) {
       console.error("Error logging in:", error);
     }

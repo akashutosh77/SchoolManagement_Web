@@ -1,22 +1,26 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../index'; // Ensure correct import path
-import { loginUser } from '../actions/authActions';
-import { IUserState } from './ISlices';
-
-
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../index"; // Ensure correct import path
+import { loginUser, loginUserWithGoogle } from "../actions/authActions";
+import { IUserState } from "./ISlices";
 
 const initialState: IUserState = {
   userId: null,
-  name: '',
-  email: '',
+  name: "",
+  email: "",
   schoolId: null,
   roleId: null,
-  status: 'idle',
+  roleName: null,
+  sub: null,
+  given_name: null,
+  family_name: null,
+  picture: null,
+  email_verified: false,
+  status: "idle",
   error: null,
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<IUserState>) => {
@@ -27,19 +31,30 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.status = 'loading';
+        return { ...state, status: "loading" };
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.userId = action.payload.userId;
-        state.name = action.payload.name;
-        state.email = action.payload.email;
-        state.schoolId = action.payload.schoolId;
-        state.roleId = action.payload.roleId;
+        return { ...state, ...action.payload, status: "succeeded" };
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message || 'Failed to login';
+        return {
+          ...state,
+          status: "failed",
+          error: action.error.message || "Failed to login",
+        };
+      })
+      .addCase(loginUserWithGoogle.pending, (state) => {
+        return { ...state, status: "loading" };
+      })
+      .addCase(loginUserWithGoogle.fulfilled, (state, action) => {
+        return { ...state, ...action.payload, status: "succeeded" };
+      })
+      .addCase(loginUserWithGoogle.rejected, (state, action) => {
+        return {
+          ...state,
+          status: "failed",
+          error: action.error.message || "Failed to login",
+        };
       });
   },
 });
