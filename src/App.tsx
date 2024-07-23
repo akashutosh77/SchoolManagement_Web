@@ -12,7 +12,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const clientId=process.env.REACT_APP_CLIENT_ID??'';
   useEffect(() => {
     const getData = async () => {
       try {
@@ -41,7 +41,7 @@ function App() {
           {/* <UploadButton /> */}
           {/* <Signup></Signup> */}
           <Container maxWidth="lg">
-            <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+            <GoogleOAuthProvider clientId={clientId}>
               <AppRoutes />
             </GoogleOAuthProvider>
           </Container>
