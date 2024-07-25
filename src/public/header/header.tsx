@@ -8,6 +8,12 @@ import { Dispatch } from "redux";
 
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<{ [key: string]: boolean }>({
+    menu1: false,
+    menu2: false,
+    menu3: false,
+    menu4: false,
+  });
   const [isUserLoggedIn, setisUserLoggedIn] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
@@ -27,6 +33,9 @@ const Header: React.FC = () => {
   const handleSchoolNameClick = () => {
     navigate("/");
   };
+  const handleMenuClick = (menu: string) => {
+    setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] });
+  };
   useEffect(() => {
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
       setisUserLoggedIn(true);
@@ -43,6 +52,8 @@ const Header: React.FC = () => {
       handleSchoolNameClick={handleSchoolNameClick}
       isUserLoggedIn={isUserLoggedIn}
       handleNavItemsBeforeLogoutClick={handleNavItemsBeforeLogoutClick}
+      handleMenuClick={handleMenuClick}
+      openMenu={openMenu}
     />
   );
 };

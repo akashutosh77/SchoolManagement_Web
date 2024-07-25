@@ -121,6 +121,12 @@ export interface IDrawerAppBarProps {
   mobileOpen: boolean;
   isUserLoggedIn: boolean;
   handleNavItemsBeforeLogoutClick: () => void;
+  handleMenuClick: (e: string) => void;
+  openMenu:{ [key: string]: boolean };
+}
+export interface IVerticalMenuItemsProps {
+  handleMenuClick: (e: string) => void;
+  openMenu:{ [key: string]: boolean };
 }
 
 export interface IMaterialReactTableFieldProps {

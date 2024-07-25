@@ -18,6 +18,9 @@ import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Collapse } from "@mui/material";
+import VerticalMenuItems from "./verticalMenuItems";
 
 const navItems = ["Home", "About", "Contact"];
 const navItemsBeforeLogin = ["Login"];
@@ -29,27 +32,12 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
   handleNavItemsBeforeLoginClick,
   handleSchoolNameClick,
   handleNavItemsBeforeLogoutClick,
+  handleMenuClick,
+  openMenu,
   ...rest
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -77,7 +65,11 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
             School Name
           </Typography>
 
-          <Box sx={{ display: { xs: "none", sm: "block", md: "block", lg:"block" } }}>
+          <Box
+            sx={{
+              display: { xs: "none", sm: "block", md: "block", lg: "block" },
+            }}
+          >
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "#fff" }}>
                 {item}
@@ -117,7 +109,9 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
       </AppBar>
       <nav>
         <Drawer
-          sx={{ display: { xs: "block", sm: "block", md: "block", lg:"block" } }}
+          sx={{
+            display: { xs: "block", sm: "block", md: "block", lg: "block" },
+          }}
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -126,7 +120,10 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
             keepMounted: true, // Better open performance on mobile.
           }}
         >
-          {drawer}
+          <VerticalMenuItems
+            handleMenuClick={handleMenuClick}
+            openMenu={openMenu}
+          />
         </Drawer>
       </nav>
     </Box>
