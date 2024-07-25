@@ -9,7 +9,9 @@ export interface IUserState {
   given_name: string | null;
   family_name: string | null;
   picture: string | null;
-  email_verified: boolean
+  email_verified: boolean;
+  isLoggedInWithGoogle: boolean ;
+  isLoggedInWithUserNamePassword: boolean ;
   // Add other fields as necessary
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;

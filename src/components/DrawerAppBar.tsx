@@ -19,6 +19,7 @@ import { IDrawerAppBarProps } from './IComponents';
 
 
 const navItems = ['Home', 'About', 'Contact'];
+const navItemsBeforeLogin = ['Login'];
 
 export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) => {
 
@@ -70,7 +71,7 @@ export const DrawerAppBar : React.FC<IDrawerAppBarProps> = ({window, ...rest}) =
             School Name
           </Typography>
           <Box sx={{ display: { xs: 'block', sm: 'block' } }}>
-            {navItems.map((item) => (
+            {navItemsBeforeLogin.map((item) => (
               <Button key={item} sx={{ color: '#fff' }}>
                 {item}
               </Button>

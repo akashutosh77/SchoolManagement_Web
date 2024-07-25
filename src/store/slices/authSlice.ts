@@ -15,6 +15,8 @@ const initialState: IUserState = {
   family_name: null,
   picture: null,
   email_verified: false,
+  isLoggedInWithGoogle: false,
+  isLoggedInWithUserNamePassword: false,
   status: "idle",
   error: null,
 };
@@ -34,7 +36,13 @@ const authSlice = createSlice({
         return { ...state, status: "loading" };
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        return { ...state, ...action.payload, status: "succeeded" };
+        console.log('the action payload is',action);
+        return {
+          ...state,
+          ...action.payload,
+          isLoggedInWithUserNamePassword: true,
+          status: "succeeded",
+        };
       })
       .addCase(loginUser.rejected, (state, action) => {
         return {
@@ -47,7 +55,12 @@ const authSlice = createSlice({
         return { ...state, status: "loading" };
       })
       .addCase(loginUserWithGoogle.fulfilled, (state, action) => {
-        return { ...state, ...action.payload, status: "succeeded" };
+        return {
+          ...state,
+          ...action.payload,
+          isLoggedInWithGoogle: true,
+          status: "succeeded",
+        };
       })
       .addCase(loginUserWithGoogle.rejected, (state, action) => {
         return {

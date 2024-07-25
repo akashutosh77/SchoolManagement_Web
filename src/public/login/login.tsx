@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../store/slices/authSlice";
+import { clearUser, setUser } from "../../store/slices/authSlice";
 import {
   loginUser,
   loginUserWithGoogle,
@@ -42,10 +42,12 @@ const Login: React.FC = () => {
     },
   });
   const handleGoogleLogin = () => {
+    dispatch(clearUser());
     googleLogin();
   };
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
+      dispatch(clearUser());
       dispatch(loginUser(values)).then((result) => {
         console.log("the result is", result);
         if (result.meta.requestStatus === "fulfilled") {
