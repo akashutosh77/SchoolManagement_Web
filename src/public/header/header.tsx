@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DrawerAppBar } from "./DrawerAppBar";
 import { clearUser, selectUser } from "../../store/slices/authSlice";
-import { Dispatch } from "redux";
+
 
 const Header: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -36,6 +36,9 @@ const Header: React.FC = () => {
   const handleMenuClick = (menu: string) => {
     setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] });
   };
+  const handleTopMenuItemClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+    if(e.currentTarget.textContent=="Home"){navigate('/')}
+  }
   useEffect(() => {
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
       setisUserLoggedIn(true);
@@ -54,6 +57,7 @@ const Header: React.FC = () => {
       handleNavItemsBeforeLogoutClick={handleNavItemsBeforeLogoutClick}
       handleMenuClick={handleMenuClick}
       openMenu={openMenu}
+      handleTopMenuItemClick={handleTopMenuItemClick}
     />
   );
 };

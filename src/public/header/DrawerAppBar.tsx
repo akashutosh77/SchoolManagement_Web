@@ -34,6 +34,7 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
   handleNavItemsBeforeLogoutClick,
   handleMenuClick,
   openMenu,
+  handleTopMenuItemClick,
   ...rest
 }) => {
   const container =
@@ -71,7 +72,7 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
             }}
           >
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }}>
+              <Button key={item} sx={{ color: "#fff" }} onClick={(e)=>handleTopMenuItemClick(e)}>
                 {item}
               </Button>
             ))}

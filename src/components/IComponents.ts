@@ -123,6 +123,7 @@ export interface IDrawerAppBarProps {
   handleNavItemsBeforeLogoutClick: () => void;
   handleMenuClick: (e: string) => void;
   openMenu:{ [key: string]: boolean };
+  handleTopMenuItemClick:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>void;
 }
 export interface IVerticalMenuItemsProps {
   handleMenuClick: (e: string) => void;
