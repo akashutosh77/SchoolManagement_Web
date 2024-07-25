@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Container, ThemeProvider } from "@mui/material";
 import { muiTheme } from "./styles/muiTheme";
 import { Background } from "./components/Background";
-import { DrawerAppBar } from "./components/DrawerAppBar";
 import { fetchData } from "./services/masterService";
 // import { Signup } from "./public/login/signup";
 import AppRoutes from "./routes/appRoutes";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Header from "./public/header/header";
 
 function App() {
   const [data, setData] = useState([]);
@@ -36,7 +36,7 @@ function App() {
   return (
     <ThemeProvider theme={muiTheme}>
       <Background>
-        <DrawerAppBar />
+        <Header />
         <div style={{ marginTop: "80px" }}>
           {/* <UploadButton /> */}
           {/* <Signup></Signup> */}
