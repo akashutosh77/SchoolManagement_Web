@@ -1,31 +1,23 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { IDrawerAppBarProps } from "../../components/IComponents";
-import { LoadingButton } from "@mui/lab";
-import SaveIcon from "@mui/icons-material/Save";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Collapse } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { LoadingButton } from "@mui/lab";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { IDrawerAppBarProps } from "../../components/IComponents";
 import VerticalMenuItems from "./verticalMenuItems";
 
 const navItems = ["Home", "About", "Contact"];
 const navItemsBeforeLogin = ["Login"];
 
-export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
+const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
   window,
   handleDrawerToggle,
   mobileOpen,
@@ -130,3 +122,4 @@ export const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
     </Box>
   );
 };
+export default DrawerAppBar

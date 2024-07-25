@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { DrawerAppBar } from "./DrawerAppBar";
+import { useNavigate } from "react-router-dom";
 import { clearUser, selectUser } from "../../store/slices/authSlice";
+import DrawerAppBar from "./drawerAppBar";
 
 
 const Header: React.FC = () => {

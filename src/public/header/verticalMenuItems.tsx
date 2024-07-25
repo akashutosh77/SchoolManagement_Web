@@ -1,15 +1,12 @@
-import * as React from "react";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Collapse, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Collapse, Typography } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import * as React from "react";
 import { IVerticalMenuItemsProps } from "../../components/IComponents";
 
 const VerticalMenuItems: React.FC<IVerticalMenuItemsProps> = ({
