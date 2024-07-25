@@ -115,6 +115,12 @@ export interface IBackgroundProps {
 
 export interface IDrawerAppBarProps {
   window?: () => Window;
+  handleDrawerToggle: () => void;
+  handleNavItemsBeforeLoginClick: (e: string) => void;
+  handleSchoolNameClick: () => void;
+  mobileOpen: boolean;
+  isUserLoggedIn: boolean;
+  handleNavItemsBeforeLogoutClick: () => void;
 }
 
 export interface IMaterialReactTableFieldProps {

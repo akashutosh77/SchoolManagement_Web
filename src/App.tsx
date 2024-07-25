@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { UploadButton } from "./components/UploadButton";
 import { Container, ThemeProvider } from "@mui/material";
 import { muiTheme } from "./styles/muiTheme";
 import { Background } from "./components/Background";
@@ -12,7 +11,7 @@ import Header from "./public/header/header";
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const clientId=process.env.REACT_APP_CLIENT_ID??'';
+  const clientId = process.env.REACT_APP_CLIENT_ID ?? "";
   useEffect(() => {
     const getData = async () => {
       try {
@@ -37,15 +36,11 @@ function App() {
     <ThemeProvider theme={muiTheme}>
       <Background>
         <Header />
-        <div style={{ marginTop: "80px" }}>
-          {/* <UploadButton /> */}
-          {/* <Signup></Signup> */}
-          <Container maxWidth="lg">
-            <GoogleOAuthProvider clientId={clientId}>
-              <AppRoutes />
-            </GoogleOAuthProvider>
-          </Container>
-        </div>
+        <Container maxWidth="lg" sx={{ mt: 10 }}>
+          <GoogleOAuthProvider clientId={clientId}>
+            <AppRoutes />
+          </GoogleOAuthProvider>
+        </Container>
       </Background>
     </ThemeProvider>
   );

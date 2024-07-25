@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { GuestRoute } from "./guestRoute";
 import { MemberRoute } from "./memberRoute";
 import { Home } from "../public/home/home";
@@ -15,7 +15,6 @@ import ForgotPassword from "../public/login/forgotPassword";
 
 const AppRoutes: React.FC = () => {
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<GuestRoute component={Home} />} />
         <Route path="/login" element={<GuestRoute component={Login} />} />
@@ -33,7 +32,7 @@ const AppRoutes: React.FC = () => {
         {/* <Route path="/profile" element={<MemberRoute component={Profile} />} />
         <Route path="/settings" element={<MemberRoute component={Settings} />} /> */}
       </Routes>
-    </Router>
+    
   );
 };
 
