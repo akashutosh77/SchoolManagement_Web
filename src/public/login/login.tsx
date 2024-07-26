@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
 import { useDispatch } from "react-redux";
-import { clearUser, setUser } from "../../store/slices/authSlice";
+import { clearUser } from "../../store/slices/authSlice";
 import {
   loginUser,
   loginUserWithGoogle,
