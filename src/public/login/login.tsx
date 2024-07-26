@@ -20,13 +20,10 @@ const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       try {
         dispatch(loginUserWithGoogle(tokenResponse.access_token)).then(
           (result) => {
-            console.log("the result is", result);
             if (result.meta.requestStatus === "fulfilled") {
-              console.log("login is a success");
               navigate("/private"); // Redirect to the dashboard or another page
             } else {
               alert("Login failed. Please check your email and password.");
@@ -49,9 +46,7 @@ const Login: React.FC = () => {
     try {
       dispatch(clearUser());
       dispatch(loginUser(values)).then((result) => {
-        console.log("the result is", result);
         if (result.meta.requestStatus === "fulfilled") {
-          console.log("login is a success");
           navigate("/private"); // Redirect to the dashboard or another page
         } else {
           alert("Login failed. Please check your email and password.");

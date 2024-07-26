@@ -16,7 +16,6 @@ const EmailPasswordSignup: React.FC = () => {
     try {
       const hashedPassword = await hashPassword(values.password);
       await axios.post("/api/signup", { ...values, password: hashedPassword });
-      console.log("Signup successful");
     } catch (error) {
       console.error("Error signing up:", error);
     }

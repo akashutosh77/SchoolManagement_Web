@@ -7,7 +7,6 @@ export const useAuthUserHook = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const user = useSelector(selectUser);
   useEffect(() => {
-    console.log('the value of isUserLoggedIn', isUserLoggedIn);
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
       setIsUserLoggedIn(true);
     } else {
