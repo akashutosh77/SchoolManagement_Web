@@ -2,29 +2,19 @@ import { styled } from '@mui/material/styles';
 
 export const Styles = {
   root: {
-    position: "relative",
-    width: "100%",
-    minHeight: 100,
-    display: "flex",
-    flexDirection: "column",
-    alignItem: "stretch",
-    "&>*": {
-      flexGrow: 1,
-    },
+    position: 'relative',
   },
   loader: {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    top: "0px",
-    left: "0px",
-    display: "flex",
-    justifyContent: "center",
-    alignItem: "center",
-    textAlign: "center",
-    background: "rgba(255, 255, 255, 0.7)",
-    zIndex: 9999,
-    borderRadius: 4,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Optional: to dim the background
+    zIndex: 9999, // Ensure it overlays everything
   },
   confirmationDialog: {
     ".actionContainer": {

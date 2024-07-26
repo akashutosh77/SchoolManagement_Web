@@ -25,9 +25,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<IUserState>) => {
-      return { ...state, ...action.payload };
-    },
+    // setUser: (state, action: PayloadAction<IUserState>) => {
+    //   return { ...state, ...action.payload };
+    // },
     clearUser: () => initialState,
   },
   extraReducers: (builder) => {
@@ -72,7 +72,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
+export const {  clearUser } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth;
 

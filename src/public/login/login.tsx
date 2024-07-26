@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Box, Typography, Button, Link, Grid } from "@mui/material";
 import { Form, useFormik, FormikProvider } from "formik";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
             console.log("the result is", result);
             if (result.meta.requestStatus === "fulfilled") {
               console.log("login is a success");
-              navigate("/signup"); // Redirect to the dashboard or another page
+              navigate("/private"); // Redirect to the dashboard or another page
             } else {
               alert("Login failed. Please check your email and password.");
             }
@@ -52,7 +52,7 @@ const Login: React.FC = () => {
         console.log("the result is", result);
         if (result.meta.requestStatus === "fulfilled") {
           console.log("login is a success");
-          navigate("/signup"); // Redirect to the dashboard or another page
+          navigate("/private"); // Redirect to the dashboard or another page
         } else {
           alert("Login failed. Please check your email and password.");
         }
@@ -71,6 +71,7 @@ const Login: React.FC = () => {
       handleLogin(values);
     },
   });
+
   return (
     <Container maxWidth="sm">
       <Box>

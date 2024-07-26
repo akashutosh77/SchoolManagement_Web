@@ -1,6 +1,6 @@
 import { createAsyncThunk, GetThunkAPI } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setUser } from "../slices/authSlice";
+//import { setUser } from "../slices/authSlice";
 import { IUserState } from "../slices/ISlices";
 
 
@@ -16,7 +16,7 @@ export const loginUser = createAsyncThunk<IUserState, { email: string; password:
       });
       const user : IUserState = response.data[0];
       if (user) {
-        thunkAPI.dispatch(setUser(user));
+        //thunkAPI.dispatch(setUser(user));
       } else {
         return thunkAPI.rejectWithValue({ message: "User not found" });
       }
@@ -39,7 +39,7 @@ export const loginUserWithGoogle = createAsyncThunk<IUserState, string >(
           },
         }
       );
-      thunkAPI.dispatch(setUser(response.data));
+      //thunkAPI.dispatch(setUser(response.data));
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

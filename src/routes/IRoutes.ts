@@ -3,4 +3,5 @@ export interface IGuestRouteProps {
 }
 export interface IMemberRouteProps {
   component: React.ComponentType<any>;
+  isUserLoggedIn: boolean;
 }

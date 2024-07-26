@@ -12,8 +12,11 @@ import Signup from "../public/login/signup";
 // import Settings from '../pages/member/Settings';
 import Login from "../public/login/login";
 import ForgotPassword from "../public/login/forgotPassword";
+import Private from "../private/private";
+import { useAuthUserDetailsHook, useAuthUserHook } from "../hooks/userHooks";
 
 const AppRoutes: React.FC = () => {
+  const isUserLoggedIn = useAuthUserHook()
   return (
       <Routes>
         <Route path="/" element={<GuestRoute component={Home} />} />
@@ -25,9 +28,13 @@ const AppRoutes: React.FC = () => {
         />
         {/* <Route path="/about" element={<GuestRoute component={About} />} />
         <Route path="/contact" element={<GuestRoute component={Contact} />} />*/}
+                <Route
+          path="/private"
+          element={<MemberRoute component={Private} isUserLoggedIn={isUserLoggedIn} />}
+        />
         <Route
           path="/dashboard"
-          element={<MemberRoute component={Dashboard} />}
+          element={<MemberRoute component={Dashboard} isUserLoggedIn={isUserLoggedIn}/>}
         />
         {/* <Route path="/profile" element={<MemberRoute component={Profile} />} />
         <Route path="/settings" element={<MemberRoute component={Settings} />} /> */}

@@ -36,7 +36,7 @@ function App() {
     <ThemeProvider theme={muiTheme}>
       <Background>
         <Header />
-        <Container maxWidth="lg" sx={{ mt: 10 }}>
+        <Container maxWidth="lg" sx={{ mt: 15 }}>
           <GoogleOAuthProvider clientId={clientId}>
             <AppRoutes />
           </GoogleOAuthProvider>
