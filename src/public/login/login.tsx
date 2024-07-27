@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
 import { useAuthHandlerHook } from "../../hooks/useAuthHandlerHooks";
+import ConfirmationDialog from "../../components/ConfirmationDialog";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const { handleGoogleLogin, handleLogin } = useAuthHandlerHook();
+  const { handleGoogleLogin, handleLogin, isLoginFailed, setIsLoginFailed } =
+    useAuthHandlerHook();
 
   const handleForgotPassword = () => {
     navigate("/forgotPassword");
@@ -90,6 +92,14 @@ const Login: React.FC = () => {
           </Link>
         </Box>
       </Box>
+      <ConfirmationDialog
+        size="md"
+        open={isLoginFailed}
+        showCloseIcon={true}
+        onClose={() => setIsLoginFailed(false)}
+        title="Login Failed"
+        content="Login failed. Please check your email and password."
+      />
     </Container>
   );
 };

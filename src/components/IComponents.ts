@@ -38,12 +38,12 @@ interface IConfirmationDialogActionProps {
 export interface IConfirmationDialogProps {
   title: string | React.ReactNode;
   content: string | React.ReactNode;
-  customStyle: object;
+  style?: object;
   open: boolean;
   actions?: IConfirmationDialogActionProps[];
-  handleClose: () => void;
+  onClose: () => void;
   size: Breakpoint;
-  showCloseIcon: boolean;
+  showCloseIcon?: boolean;
 }
 
 export interface ICustomButtonProps {

@@ -10,12 +10,12 @@ import {
 import { Styles } from "./Styles";
 import CloseIcon from "@mui/icons-material/Close";
 
-export const ConfirmationDialog: React.FC<IConfirmationDialogProps> = ({
+const ConfirmationDialog: React.FC<IConfirmationDialogProps> = ({
   title,
   content,
   actions,
-  handleClose,
-  customStyle,
+  onClose,
+  style,
   open,
   size,
   showCloseIcon,
@@ -25,8 +25,8 @@ export const ConfirmationDialog: React.FC<IConfirmationDialogProps> = ({
       <Dialog
         maxWidth={size}
         open={open}
-        onClose={handleClose}
-        sx={{ ...Styles.confirmationDialog, ...customStyle }}
+        onClose={onClose}
+        sx={{ ...Styles.confirmationDialog, ...style }}
       >
         {showCloseIcon && (
           <DialogActions>
@@ -34,7 +34,7 @@ export const ConfirmationDialog: React.FC<IConfirmationDialogProps> = ({
               fontSize="small"
               className="closeIcon"
               sx={Styles.closeIcon}
-              onClick={handleClose}
+              onClick={onClose}
             />
           </DialogActions>
         )}
@@ -68,3 +68,4 @@ export const ConfirmationDialog: React.FC<IConfirmationDialogProps> = ({
     )
   ) || null;
 };
+export default ConfirmationDialog

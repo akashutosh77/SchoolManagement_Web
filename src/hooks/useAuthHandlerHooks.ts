@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../store";
 import { loginUser, loginUserWithGoogle } from "../store/actions/authActions";
 import { clearUser } from "../store/slices/authSlice";
+import { useState } from "react";
 
 export const useAuthHandlerHook = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const[isLoginFailed, setIsLoginFailed] = useState(false);
   const secretKey = process.env.REACT_APP_SECRET_KEY || "default_secret_key"; // Ensure to set this in your environment variables
-
+  
 
   const hashPassword = (password: string, secret: string): string => {
     return CryptoJS.HmacSHA256(password, secret).toString(CryptoJS.enc.Hex);
@@ -24,7 +26,7 @@ export const useAuthHandlerHook = () => {
             if (result.meta.requestStatus === "fulfilled") {
               navigate("/private"); // Redirect to the dashboard or another page
             } else {
-              alert("Login failed. Please check your email and password.");
+                setIsLoginFailed(true);
             }
           }
         );
@@ -52,7 +54,7 @@ export const useAuthHandlerHook = () => {
         if (result.meta.requestStatus === "fulfilled") {
           navigate("/private"); // Redirect to the dashboard or another page
         } else {
-          alert("Login failed. Please check your email and password.");
+            setIsLoginFailed(true);
         }
       });
     } catch (error) {
@@ -60,5 +62,5 @@ export const useAuthHandlerHook = () => {
     }
   };
 
-  return { handleGoogleLogin, handleLogin };
+  return { handleGoogleLogin, handleLogin,isLoginFailed , setIsLoginFailed };
 };
