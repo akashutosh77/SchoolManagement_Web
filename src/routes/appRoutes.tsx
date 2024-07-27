@@ -13,7 +13,7 @@ import Signup from "../public/login/signup";
 import Login from "../public/login/login";
 import ForgotPassword from "../public/login/forgotPassword";
 import Private from "../private/private";
-import { useAuthUserDetailsHook, useAuthUserHook } from "../hooks/userHooks";
+import { useAuthUserDetailsHook, useAuthUserHook } from "../hooks/useUserHooks";
 
 const AppRoutes: React.FC = () => {
   const isUserLoggedIn = useAuthUserHook()
