@@ -1,13 +1,20 @@
 import { useGoogleLogin } from "@react-oauth/google";
+import CryptoJS from "crypto-js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearUser } from "../store/slices/authSlice";
-import { loginUser, loginUserWithGoogle } from "../store/actions/authActions";
 import { AppDispatch } from "../store";
+import { loginUser, loginUserWithGoogle } from "../store/actions/authActions";
+import { clearUser } from "../store/slices/authSlice";
 
 export const useAuthHandlerHook = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const secretKey = process.env.REACT_APP_SECRET_KEY || "default_secret_key"; // Ensure to set this in your environment variables
+
+
+  const hashPassword = (password: string, secret: string): string => {
+    return CryptoJS.HmacSHA256(password, secret).toString(CryptoJS.enc.Hex);
+  }
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -37,8 +44,11 @@ export const useAuthHandlerHook = () => {
 
   const handleLogin = async (values: { email: string; password: string }) => {
     try {
+      const hashedPassword = hashPassword(values.password, secretKey);
       dispatch(clearUser());
-      dispatch(loginUser(values)).then((result) => {
+      dispatch(
+        loginUser({ email: values.email, password: hashedPassword })
+      ).then((result) => {
         if (result.meta.requestStatus === "fulfilled") {
           navigate("/private"); // Redirect to the dashboard or another page
         } else {
