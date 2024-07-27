@@ -17,7 +17,6 @@ export const loginUser = createAsyncThunk<
       });
       const user: IUserState = response.data[0];
       if (user) {
-        //thunkAPI.dispatch(setUser(user));
       } else {
         return thunkAPI.rejectWithValue({ message: "User not found" });
       }
