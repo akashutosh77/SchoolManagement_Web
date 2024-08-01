@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearUser, selectUser } from "../../store/slices/authSlice";
-import DrawerAppBar from "./drawerAppBar";
+import DrawerAppBar from "public/header/drawerAppBar";
 
 
 const Header: React.FC = () => {
