@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useAuthUserDetailsHook} from "../hooks/useUserHooks";
+import {useAuthUserDetailsHook, useIsAuthUserLoggedInHook} from "../hooks/useUserHooks";
 import { Typography } from "@mui/material";
 import { ROLES } from "../utils";
 const Private: React.FC = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Box, Typography, Button, Link, Grid } from "@mui/material";
 import { Form, useFormik, FormikProvider } from "formik";
 import { InputField } from "../../components/InputField";
@@ -7,11 +7,21 @@ import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
 import { useAuthHandlerHook } from "../../hooks/useAuthHandlerHooks";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
+import {
+  useAuthUserDetailsHook,
+  useIsAuthUserLoggedInHook,
+} from "../../hooks/useUserHooks";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { handleGoogleLogin, handleLogin, isLoginFailed, setIsLoginFailed } =
     useAuthHandlerHook();
+  const isUserLoggedIn = useIsAuthUserLoggedInHook();
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      navigate("/private");
+    }
+  }, [isUserLoggedIn]);
 
   const handleForgotPassword = () => {
     navigate("/forgotPassword");
