@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { GuestRoute } from "./guestRoute";
 import { MemberRoute } from "./memberRoute";
-import { Home } from "../public/home/home";
+import {Home}  from "public/home/home";
 // import About from '../pages/guest/About';
 // import Contact from '../pages/guest/Contact';
 // import Login from '../pages/guest/Login';
