@@ -12,6 +12,7 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const clientId = process.env.REACT_APP_CLIENT_ID ?? "";
+  console.log('Google Client ID:', clientId);
   useEffect(() => {
     const getData = async () => {
       try {
