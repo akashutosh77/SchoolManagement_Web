@@ -5,6 +5,20 @@ import { IUserState } from "../slices/ISlices";
 
 const base_url = process.env.REACT_APP_BASE_URL;
 
+
+/**
+ * Thunk action for logging in a user.
+ * 
+ * This thunk sends a request to the backend API to authenticate the user with 
+ * the provided email and password. Upon successful authentication, the user 
+ * details are stored in local storage and returned. If authentication fails, 
+ * an error is returned.
+ * 
+ * @param {Object} credentials - The user credentials.
+ * @param {string} credentials.email - The user's email address.
+ * @param {string} credentials.password - The user's password.
+ * @returns {Promise<IUserState>} - The authenticated user's state.
+ */
 export const loginUser = createAsyncThunk<
   IUserState,
   { email: string; password: string }
