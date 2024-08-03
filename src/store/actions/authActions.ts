@@ -62,6 +62,9 @@ export const loginUserWithGoogle = createAsyncThunk<IUserState, string>(
           params: { email: googleResponseData?.email },
         })
       ).data[0];
+      if(Object.keys(loginResponse).length==0){
+        return thunkAPI.rejectWithValue({ message: "User not found" });
+      }
       const user: IUserState = { ...googleResponseData, ...loginResponse };
       if (user) {
         // Convert the object to a JSON string
