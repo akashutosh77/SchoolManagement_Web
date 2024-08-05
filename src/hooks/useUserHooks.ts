@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../store";
 import { selectUser, setUser } from "../store/slices/authSlice";
 import { IUserState } from "../store/slices/ISlices";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
 
 export const useIsAuthUserLoggedInHook = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const user = useSelector(selectUser);
   const dispatch = useDispatch<AppDispatch>();
-  const retrieveObject = (key: string) => {
+  const getUserFromStorage = (key: string) => {
     const valueJson = localStorage.getItem(key);
     if (valueJson) {
       try {
@@ -24,7 +23,7 @@ export const useIsAuthUserLoggedInHook = () => {
   };
 
   useEffect(() => {
-    const retrievedUser: IUserState = retrieveObject("user");
+    const retrievedUser: IUserState = getUserFromStorage("user");
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
       setIsUserLoggedIn(true);
     } else if (

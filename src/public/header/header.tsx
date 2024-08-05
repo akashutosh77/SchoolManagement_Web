@@ -1,12 +1,18 @@
+import {
+  useAuthUserDetailsHook,
+  useIsAuthUserLoggedInHook,
+} from "hooks/useUserHooks";
+import DrawerAppBar from "public/header/drawerAppBar";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { attendanceByTeacher, teacherAttendance } from "utils";
 import { clearUser, selectUser } from "../../store/slices/authSlice";
-import DrawerAppBar from "public/header/drawerAppBar";
-
 
 const Header: React.FC = () => {
+  const userDetails = useAuthUserDetailsHook();
+  const isUserLoggedIn = useIsAuthUserLoggedInHook();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<{ [key: string]: boolean }>({
     menu1: false,
@@ -14,7 +20,6 @@ const Header: React.FC = () => {
     menu3: false,
     menu4: false,
   });
-  const [isUserLoggedIn, setisUserLoggedIn] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,25 +33,25 @@ const Header: React.FC = () => {
   };
   const handleNavItemsBeforeLogoutClick = () => {
     dispatch(clearUser());
-    navigate('/')
+    navigate("/");
   };
   const handleSchoolNameClick = () => {
     navigate("/");
   };
   const handleMenuClick = (menu: string) => {
     setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] });
+    if (menu == attendanceByTeacher) {
+      navigate(`private/${teacherAttendance}`);
+    }
   };
-  const handleTopMenuItemClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
-    if(e.currentTarget.textContent=="Home"){navigate('/')}
-  }
-  useEffect(() => {
-    if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
-      setisUserLoggedIn(true);
+  const handleTopMenuItemClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (e.currentTarget.textContent == "Home") {
+      navigate("/");
     }
-    else{
-        setisUserLoggedIn(false);  
-    }
-  }, [user]);
+  };
+
   return (
     <DrawerAppBar
       handleDrawerToggle={handleDrawerToggle}
@@ -58,6 +63,7 @@ const Header: React.FC = () => {
       handleMenuClick={handleMenuClick}
       openMenu={openMenu}
       handleTopMenuItemClick={handleTopMenuItemClick}
+      userDetails={userDetails}
     />
   );
 };

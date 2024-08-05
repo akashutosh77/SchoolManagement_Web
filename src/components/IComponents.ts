@@ -1,18 +1,19 @@
-import { SyntheticEvent } from "react";
-import { Idrpdown } from "../ICommonUtils";
-import { Breakpoint } from "@mui/system";
 import {
   ButtonPropsSizeOverrides,
   TextFieldPropsSizeOverrides,
   TextFieldVariants,
 } from "@mui/material";
+import { Breakpoint } from "@mui/system";
 import { OverridableStringUnion } from "@mui/types";
 import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers";
-import { TVariant, TSelectFieldChange } from "../TCommonUtils";
 import { MRT_TableInstance } from "material-react-table";
+import { SyntheticEvent } from "react";
+import { IUserState } from "store/slices/ISlices";
+import { Idrpdown } from "../ICommonUtils";
+import { TSelectFieldChange, TVariant } from "../TCommonUtils";
 
 export interface IReusableAutocompleteProps {
   label: string;
@@ -122,14 +123,26 @@ export interface IDrawerAppBarProps {
   isUserLoggedIn: boolean;
   handleNavItemsBeforeLogoutClick: () => void;
   handleMenuClick: (e: string) => void;
-  openMenu:{ [key: string]: boolean };
-  handleTopMenuItemClick:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>void;
+  openMenu: { [key: string]: boolean };
+  handleTopMenuItemClick: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  userDetails: IUserState | null;
 }
 export interface IVerticalMenuItemsProps {
   handleMenuClick: (e: string) => void;
-  openMenu:{ [key: string]: boolean };
+  openMenu: { [key: string]: boolean };
+  userDetails: IUserState | null;
+  isUserLoggedIn: boolean;
+}
+export interface IVerticalMenuTeachersProps {
+  handleMenuClick: (e: string) => void;
 }
 
 export interface IMaterialReactTableFieldProps {
   table: MRT_TableInstance<any>;
+}
+
+export interface ITeachersProps {
+  urlAfterPrivate: string;
 }

@@ -27,7 +27,8 @@ const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
   handleMenuClick,
   openMenu,
   handleTopMenuItemClick,
-  ...rest
+  userDetails,
+  isUserLoggedIn,
 }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined;
@@ -37,7 +38,7 @@ const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
       <CssBaseline />
       <AppBar component="nav" sx={{ boxShadow: "none" }}>
         <Toolbar>
-          {rest.isUserLoggedIn && (
+          {isUserLoggedIn && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -64,13 +65,17 @@ const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
             }}
           >
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: "#fff" }} onClick={(e)=>handleTopMenuItemClick(e)}>
+              <Button
+                key={item}
+                sx={{ color: "#fff" }}
+                onClick={(e) => handleTopMenuItemClick(e)}
+              >
                 {item}
               </Button>
             ))}
           </Box>
           <Box>
-            {!rest.isUserLoggedIn ? (
+            {!isUserLoggedIn ? (
               <LoadingButton
                 loading={false}
                 loadingPosition="start"
@@ -116,10 +121,12 @@ const DrawerAppBar: React.FC<IDrawerAppBarProps> = ({
           <VerticalMenuItems
             handleMenuClick={handleMenuClick}
             openMenu={openMenu}
+            isUserLoggedIn={isUserLoggedIn}
+            userDetails={userDetails}
           />
         </Drawer>
       </nav>
     </Box>
   );
 };
-export default DrawerAppBar
+export default DrawerAppBar;
