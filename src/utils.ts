@@ -6,5 +6,5 @@ export enum ROLES {
   Parent = "Parent",
   Staff = "Staff",
 }
-export const teacherAttendance = "teacher/attendance";
+export const urlOfTeacherAttendance = "attendance";
 export const attendanceByTeacher = "attendanceByTeacher";

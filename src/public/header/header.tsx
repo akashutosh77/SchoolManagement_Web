@@ -7,7 +7,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { attendanceByTeacher, teacherAttendance } from "utils";
+import { attendanceByTeacher, urlOfTeacherAttendance } from "utils";
 import { clearUser, selectUser } from "../../store/slices/authSlice";
 
 const Header: React.FC = () => {
@@ -41,7 +41,7 @@ const Header: React.FC = () => {
   const handleMenuClick = (menu: string) => {
     setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] });
     if (menu == attendanceByTeacher) {
-      navigate(`private/${teacherAttendance}`);
+      navigate(`private/${urlOfTeacherAttendance}`);
     }
   };
   const handleTopMenuItemClick = (

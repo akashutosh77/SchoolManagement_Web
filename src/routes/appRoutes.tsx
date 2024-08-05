@@ -10,7 +10,7 @@ import { Dashboard } from "../private/dashboard";
 import Signup from "../public/login/signup";
 // import Profile from '../pages/member/Profile';
 // import Settings from '../pages/member/Settings';
-import { teacherAttendance } from "utils";
+import { urlOfTeacherAttendance } from "utils";
 import { useIsAuthUserLoggedInHook } from "../hooks/useUserHooks";
 import Private from "../private/private";
 import ForgotPassword from "../public/login/forgotPassword";
@@ -36,7 +36,7 @@ const AppRoutes: React.FC = () => {
         }
       />
       <Route
-        path={`/private/${teacherAttendance}`}
+        path={`/private/${urlOfTeacherAttendance}`}
         element={
           <MemberRoute component={Private} isUserLoggedIn={isUserLoggedIn} />
         }

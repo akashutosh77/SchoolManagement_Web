@@ -5,7 +5,7 @@ import { InputField } from "../../components/InputField";
 import { useNavigate } from "react-router-dom";
 import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
-import { useAuthHandlerHook } from "../../hooks/useAuthHandlerHooks";
+import { useAuthHandlerHook } from "../../hooks/useAuthHandlerHook";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {
   useAuthUserDetailsHook,

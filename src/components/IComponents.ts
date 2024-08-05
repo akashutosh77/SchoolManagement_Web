@@ -145,4 +145,9 @@ export interface IMaterialReactTableFieldProps {
 
 export interface ITeachersProps {
   urlAfterPrivate: string;
+  userDetails:IUserState
+}
+
+export interface IAttendanceProps{
+  table: MRT_TableInstance<any>
 }
