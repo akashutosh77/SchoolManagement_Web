@@ -39,6 +39,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "env-cmd -f .env.development react-scripts start",
+    "start:prod": "env-cmd -f .env.production react-scripts start",
     "build": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -64,6 +66,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@types/crypto-js": "4.2.2",
-    "@types/react-slick": "0.23.13"
+    "@types/react-slick": "0.23.13",
+    "env-cmd": "^10.1.0"
   }
 }
