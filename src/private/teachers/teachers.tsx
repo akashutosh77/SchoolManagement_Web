@@ -4,14 +4,10 @@ import Attendance from "private/attendance/attendance";
 import { urlOfTeacherAttendance } from "utils";
 
 //
-const Teachers: React.FC<ITeachersProps> = ({ urlAfterPrivate, userDetails }) => {
-  return (
-    <>
-      <Typography>Welcome teacher: {userDetails?.name}</Typography>
-      {urlAfterPrivate == urlOfTeacherAttendance && (
-        <Attendance/>
-      )}
-    </>
-  );
+const Teachers: React.FC<ITeachersProps> = ({
+  urlAfterPrivate,
+  userDetails,
+}) => {
+  return <>{urlAfterPrivate == urlOfTeacherAttendance && <Attendance/>}</>;
 };
 export default Teachers;

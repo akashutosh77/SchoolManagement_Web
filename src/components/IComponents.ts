@@ -1,4 +1,6 @@
 import {
+  AutocompletePropsSizeOverrides,
+  AutocompleteValue,
   ButtonPropsSizeOverrides,
   TextFieldPropsSizeOverrides,
   TextFieldVariants,
@@ -25,6 +27,7 @@ export interface IReusableAutocompleteProps {
     value: Idrpdown | null
   ) => void;
   isOptionEqualToValue?: (option: Idrpdown, value: Idrpdown) => boolean;
+  size?:OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides> | undefined
 }
 export interface ICircularLoaderProps {
   loading: boolean;
@@ -150,4 +153,8 @@ export interface ITeachersProps {
 
 export interface IAttendanceProps{
   table: MRT_TableInstance<any>
+}
+
+export interface IAttendanceHeaderProps{
+  handleClassOnChange: (event: React.SyntheticEvent, newValue: Idrpdown | null)=>void
 }

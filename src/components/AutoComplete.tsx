@@ -5,11 +5,12 @@ import { IReusableAutocompleteProps } from './IComponents';
 
 
 
-const ReusableAutocomplete: React.FC<IReusableAutocompleteProps> = ({ label, name,value,options, ...rest }) => {
+const AutocompleteField: React.FC<IReusableAutocompleteProps> = ({ label, name,value,options,size, ...rest }) => {
   const [field, meta] = useField(name);
 
   return (
     <Autocomplete
+      size={size}
       options={options}
       value={value}
       getOptionLabel={(option) => option.label}
@@ -30,4 +31,4 @@ const ReusableAutocomplete: React.FC<IReusableAutocompleteProps> = ({ label, nam
   );
 };
 
-export default ReusableAutocomplete;
+export default AutocompleteField;
