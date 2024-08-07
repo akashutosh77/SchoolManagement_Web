@@ -8,9 +8,12 @@ import {
 } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { TextField } from "@mui/material";
 
 export const DatePickerField: React.FC<IDatePickerProps> = ({
   label,
+  slotProps,
+  style,
   ...rest
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,7 +29,7 @@ export const DatePickerField: React.FC<IDatePickerProps> = ({
   }, [value]);
 
   const _onChange = (
-    value: Date | null ,
+    value: Date | null,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => {
     if (value) {
@@ -47,6 +50,8 @@ export const DatePickerField: React.FC<IDatePickerProps> = ({
       <DatePicker
         {...field}
         {...rest}
+        sx={{...style}}
+        slotProps={slotProps}
         label={label}
         value={selectedDate}
         onChange={(value, context) => _onChange(value, context)}

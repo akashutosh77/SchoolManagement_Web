@@ -8,6 +8,7 @@ import {
 import { Breakpoint } from "@mui/system";
 import { OverridableStringUnion } from "@mui/types";
 import {
+  DatePickerSlotsComponentsProps,
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers";
@@ -20,7 +21,6 @@ import { TSelectFieldChange, TVariant } from "../TCommonUtils";
 export interface IReusableAutocompleteProps {
   label: string;
   name: string;
-  value?: Idrpdown | null;
   options: Idrpdown[];
   onChange?: (
     e: SyntheticEvent<Element, Event>,
@@ -28,6 +28,7 @@ export interface IReusableAutocompleteProps {
   ) => void;
   isOptionEqualToValue?: (option: Idrpdown, value: Idrpdown) => boolean;
   size?:OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides> | undefined
+  style?: object;
 }
 export interface ICircularLoaderProps {
   loading: boolean;
@@ -67,15 +68,17 @@ export interface ICustomButtonProps {
 
 export interface IDatePickerProps {
   name: string;
-  label: string;
+  label?: string;
   inputFormat?: string;
-  value: Date;
+  value?: Date;
   minDate?: Date;
   onError?: (error: DateValidationError, value: Date | null) => void;
   onChange?: (
     value: Date | null,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
+  slotProps?: DatePickerSlotsComponentsProps<Date> | undefined;
+  style?: object;
 }
 
 export interface IInputFieldProps {
@@ -157,4 +160,11 @@ export interface IAttendanceProps{
 
 export interface IAttendanceHeaderProps{
   handleClassOnChange: (event: React.SyntheticEvent, newValue: Idrpdown | null)=>void
+  //handleClassOnChange:  (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void
+  handleDateOnChange: (
+    value: Date | null,
+    context: PickerChangeHandlerContext<DateValidationError>
+  ) => void;
 }
+
+
