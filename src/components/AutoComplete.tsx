@@ -12,6 +12,7 @@ const AutocompleteField: React.FC<IReusableAutocompleteProps> = ({ label, name,o
     <Autocomplete
       size={size}
       options={options}
+      disableClearable
       getOptionLabel={(option) => option.label}
       isOptionEqualToValue={(option, value)=>option.id==value.id}
       {...rest}

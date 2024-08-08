@@ -8,11 +8,11 @@ const base_url = process.env.REACT_APP_BASE_URL;
 
 export const getAttendanceDetails = createAsyncThunk<
   IAttendanceProps,
-  { schoolId: number; classId: number; attendanceDate?: Date }
+  { schoolId: number; classId: number; attendanceDate?: string }
 >(
   "attendance/getAttendanceDetails",
   async (
-    parameters: { schoolId: number; classId: number; attendanceDate?: Date },
+    parameters: { schoolId: number; classId: number; attendanceDate?: string },
     thunkAPI
   ) => {
     try {

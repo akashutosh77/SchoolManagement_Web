@@ -21,13 +21,14 @@ const attendanceSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAttendanceDetails.pending, (state) => {
-        return { ...state, status: "loading" };
+        return { ...state, status: "loading", error: null };
       })
       .addCase(getAttendanceDetails.fulfilled, (state, action) => {
         return {
           ...state,
           ...action.payload,
           status: "succeeded",
+          error: null
         };
       })
       .addCase(getAttendanceDetails.rejected, (state, action) => {

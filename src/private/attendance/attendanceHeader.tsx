@@ -14,6 +14,7 @@ import { IAttendanceHeaderProps } from "components/IComponents";
 const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
   handleClassOnChange,
   handleDateOnChange,
+  attendanceDate,
 }) => {
   return (
     <Box>
@@ -33,7 +34,7 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
               { id: "3", label: "SecondA" },
               { id: "4", label: "SecondB" },
             ]}
-            label="Class"
+            label="Select Class"
             name="class"
             //style={{width:200}}
             
@@ -46,6 +47,8 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
             label="Date"
             name="attendanceDate"
             onChange={handleDateOnChange}
+            value={attendanceDate}
+            format="dd/MM/yyyy"
           />
         </Grid>
       </Grid>

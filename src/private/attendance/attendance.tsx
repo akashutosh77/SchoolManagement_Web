@@ -1,48 +1,37 @@
-import { IAttendanceProps } from "components/IComponents";
-import MaterialReactTableField from "components/MaterialReactTableField";
-import AttendanceHeader from "./attendanceHeader";
-import { useEffect, useState } from "react";
-import { Idrpdown } from "ICommonUtils";
 import { Button, Divider } from "@mui/material";
-import { Form, useFormik, FormikProvider } from "formik";
-import { attendanceInitialValues } from "./attendanceInitialValues";
+import {
+  DateValidationError,
+  PickerChangeHandlerContext,
+} from "@mui/x-date-pickers";
+import MaterialReactTableField from "components/MaterialReactTableField";
+import { Form, FormikProvider, useFormik } from "formik";
+import { useAuthUserDetailsHook } from "hooks/useUserHooks";
+import { Idrpdown } from "ICommonUtils";
 import { useMaterialReactTable } from "material-react-table";
+import moment from "moment";
 import NoData from "noData";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "store";
 import { getAttendanceDetails } from "store/actions/attendanceActions";
-import { useAuthUserDetailsHook } from "hooks/useUserHooks";
-import { DateValidationError, PickerChangeHandlerContext } from "@mui/x-date-pickers";
+import { IAttendance } from "store/slices/ISlices";
+import { parseAndFormatDate } from "utils";
+import { selectAttendanceData } from "../../store/slices/attendenceSlice";
+import AttendanceHeader from "./attendanceHeader";
+import { attendanceInitialValues } from "./attendanceInitialValues";
+import { columns } from "utils";
 
 const Attendance: React.FC = () => {
+  const attendanceData = useSelector(selectAttendanceData);
+  const [data, setData] = useState<IAttendance[]>([]);
+  const [className, setClassName] = useState("");
+  const [attendanceDate, setAttendanceDate] = useState<string>(
+    parseAndFormatDate(new Date().toISOString())
+  );
+  const [classId, setClassId] = useState<number>(0);
   const userDetails = useAuthUserDetailsHook();
   const dispatch = useDispatch<AppDispatch>();
-  const handleClassOnChange = (
-    event: React.SyntheticEvent,
-    newValue: Idrpdown | null
-  ) => {
-    //formik.handleChange(event);
-    formik.setFieldValue("class",newValue?.label );
-    formik.setFieldValue("classId",newValue?.id );
-    //alert("handle change is fired" + JSON.stringify(newValue));
-  };
-  // const handleClassOnChange = (event:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-  //   formik.handleChange(event);
-  // }
-  const handleDateOnChange = (value: Date|null, context: PickerChangeHandlerContext<DateValidationError>) => {
-    //formik.handleChange(value);
-  };
-  const data: any = []; // your data source
-  const columns = [
-    {
-      accessorKey: "name", // accessor is the "key" in the data
-      header: "Name",
-    },
-    {
-      accessorKey: "age",
-      header: "Age",
-    },
-  ];
+
   const table = useMaterialReactTable({
     columns,
     data,
@@ -50,31 +39,70 @@ const Attendance: React.FC = () => {
       noRecordsToDisplay: (<NoData />) as any,
       noResultsFound: (<NoData />) as any,
     },
+    initialState:{
+      columnVisibility:{
+        schoolId: false,
+        classId: false,
+        studentId: false,
+        schoolName: false,
+      }
+    },
     enableFullScreenToggle: false,
   });
+
+  useEffect(() => {
+    if (className && attendanceDate && userDetails) {
+      dispatch(
+        getAttendanceDetails({
+          schoolId: userDetails?.schoolId!,
+          classId: classId,
+          attendanceDate: parseAndFormatDate(formik.values.attendanceDate),
+        })
+      );
+    }
+  }, [className, attendanceDate, userDetails]);
+  useEffect(() => {
+    if (attendanceData) {
+      setData(attendanceData);
+    }
+  }, [attendanceData]);
+
+  const handleClassOnChange = (
+    event: React.SyntheticEvent,
+    newValue: Idrpdown | null
+  ) => {
+    formik.handleChange(event);
+    formik.setFieldValue("class", newValue?.label);
+    formik.setFieldValue("classId", newValue?.id);
+    setClassName(newValue!.label);
+    setClassId(parseInt(newValue!.id));
+  };
+  const handleDateOnChange = (
+    value: Date | null,
+    context: PickerChangeHandlerContext<DateValidationError>
+  ) => {
+    formik.setFieldValue("attendanceDate", value);
+    setAttendanceDate(value!.toString());
+  };
+  const handleSubmitClick = () => {};
+  {
+  }
+
   const formik = useFormik({
     initialValues: attendanceInitialValues,
     onSubmit: (values) => {
       console.log(values);
     },
   });
-  const handleSubmitClick = () => {
-    dispatch(
-      getAttendanceDetails({
-        schoolId: userDetails?.schoolId!,
-        classId: formik.values.classId,
-      })
-    );
-  };
-  {
-    console.log("the values are", formik.values);
-  }
+
+  console.log("the formik values are", formik.values);
   return (
     <FormikProvider value={formik}>
       <Form onSubmit={formik.handleSubmit}></Form>
       <AttendanceHeader
         handleClassOnChange={handleClassOnChange}
         handleDateOnChange={handleDateOnChange}
+        attendanceDate={moment(attendanceDate).toDate()}
       />
       <Divider sx={{ mt: 1 }}></Divider>
       <MaterialReactTableField table={table} />

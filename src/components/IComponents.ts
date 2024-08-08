@@ -79,6 +79,7 @@ export interface IDatePickerProps {
   ) => void;
   slotProps?: DatePickerSlotsComponentsProps<Date> | undefined;
   style?: object;
+  format: string | undefined
 }
 
 export interface IInputFieldProps {
@@ -165,6 +166,7 @@ export interface IAttendanceHeaderProps{
     value: Date | null,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
+  attendanceDate?: Date,
 }
 
 
