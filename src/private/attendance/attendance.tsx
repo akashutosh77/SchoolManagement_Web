@@ -26,7 +26,7 @@ const Attendance: React.FC = () => {
   const [data, setData] = useState<IAttendance[]>([]);
   const [className, setClassName] = useState("");
   const [attendanceDate, setAttendanceDate] = useState<string>(
-    parseAndFormatDate(new Date().toISOString())
+    parseAndFormatDate(moment(new Date()).format('DD-MM-YYYY'))
   );
   const [classId, setClassId] = useState<number>(0);
   const userDetails = useAuthUserDetailsHook();
