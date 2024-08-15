@@ -11,7 +11,7 @@ import Signup from "../public/login/signup";
 // import Profile from '../pages/member/Profile';
 // import Settings from '../pages/member/Settings';
 import { urlOfTeacherAttendance } from "utils";
-import { useIsAuthUserLoggedInHook } from "../hooks/useUserHooks";
+import { useIsAuthUserLoggedInHook } from "../hooks/public/useUserHooks";
 import Private from "../private/private";
 import ForgotPassword from "../public/login/forgotPassword";
 import Login from "../public/login/login";

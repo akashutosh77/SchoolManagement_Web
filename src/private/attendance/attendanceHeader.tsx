@@ -1,12 +1,4 @@
-import { WidthFull } from "@mui/icons-material";
-import {
-  Autocomplete,
-  Box,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import AutocompleteField from "components/AutoComplete";
 import { DatePickerField } from "components/DatePickerField";
 import { IAttendanceHeaderProps } from "components/IComponents";
@@ -15,12 +7,19 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
   handleClassOnChange,
   handleDateOnChange,
   attendanceDate,
+  masterData,
 }) => {
+  {
+    console.log("the master data from header is", JSON.stringify(masterData));
+    console.log("the date is", attendanceDate);
+  }
   return (
     <Box>
       <Grid container spacing={2}>
         <Grid item xs={12} sx={{ textAlign: "center" }}>
-          <Typography variant="h5" gutterBottom>Attendance</Typography>
+          <Typography variant="h5" gutterBottom>
+            Attendance
+          </Typography>
         </Grid>
       </Grid>
       <Grid container spacing={2} sx={{ marginTop: 3 }}>
@@ -37,7 +36,6 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
             label="Select Class"
             name="class"
             //style={{width:200}}
-            
           />
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>

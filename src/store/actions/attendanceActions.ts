@@ -16,6 +16,7 @@ export const getAttendanceDetails = createAsyncThunk<
     thunkAPI
   ) => {
     try {
+     
       const response = await axios.get(`${base_url}/getAttendanceDetails`, {
         params: parameters,
       });

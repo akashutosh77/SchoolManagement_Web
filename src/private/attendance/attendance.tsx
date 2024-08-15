@@ -3,11 +3,12 @@ import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers";
+import { IAttendanceProps } from "components/IComponents";
 import MaterialReactTableField from "components/MaterialReactTableField";
 import { Form, FormikProvider, useFormik } from "formik";
-import { useAuthUserDetailsHook } from "hooks/useUserHooks";
+import { useAuthUserDetailsHook } from "hooks/public/useUserHooks";
 import { Idrpdown } from "ICommonUtils";
-import { useMaterialReactTable } from "material-react-table";
+import { MRT_Cell, MRT_Row, useMaterialReactTable } from "material-react-table";
 import moment from "moment";
 import NoData from "noData";
 import { useEffect, useState } from "react";
@@ -16,22 +17,79 @@ import { AppDispatch } from "store";
 import { getAttendanceDetails } from "store/actions/attendanceActions";
 import { IAttendance } from "store/slices/ISlices";
 import { parseAndFormatDate } from "utils";
-import { selectAttendanceData } from "../../store/slices/attendenceSlice";
+import {
+  clearAttendance,
+  selectAttendanceData,
+} from "../../store/slices/attendenceSlice";
 import AttendanceHeader from "./attendanceHeader";
 import { attendanceInitialValues } from "./attendanceInitialValues";
-import { columns } from "utils";
+import { MRT_ColumnDef } from "material-react-table";
 
-const Attendance: React.FC = () => {
+const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   const attendanceData = useSelector(selectAttendanceData);
   const [data, setData] = useState<IAttendance[]>([]);
   const [className, setClassName] = useState("");
-  const [attendanceDate, setAttendanceDate] = useState<string>(
-    parseAndFormatDate(moment(new Date()).format('DD-MM-YYYY'))
-  );
+  const [attendanceDate, setAttendanceDate] = useState<Date>(new Date());
   const [classId, setClassId] = useState<number>(0);
   const userDetails = useAuthUserDetailsHook();
   const dispatch = useDispatch<AppDispatch>();
-
+  const columns: MRT_ColumnDef<IAttendance>[] = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      Cell: ({
+        cell,
+        row,
+      }: {
+        cell: MRT_Cell<IAttendance>;
+        row: MRT_Row<IAttendance>;
+      }) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src={row.original.photoURL}
+            alt="Student Photo"
+            style={{
+              width: 50,
+              height: 50,
+              objectFit: "cover",
+              borderRadius: "50%",
+              marginRight: 10,
+            }}
+          />
+          <div>
+            <div>
+              {row.original.firstName} {row.original.middleName}{" "}
+              {row.original.lastName}
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "schoolId", // accessor is the "key" in the data
+      header: "schoolId",
+    },
+    {
+      accessorKey: "classId",
+      header: "classId",
+    },
+    {
+      accessorKey: "studentId",
+      header: "studentId",
+    },
+    {
+      accessorKey: "schoolName",
+      header: "schoolName",
+    },
+    {
+      accessorKey: "attendanceStatus",
+      header: "Status",
+    },
+    {
+      accessorKey: "remarks",
+      header: "remarks",
+    },
+  ];
   const table = useMaterialReactTable({
     columns,
     data,
@@ -39,13 +97,14 @@ const Attendance: React.FC = () => {
       noRecordsToDisplay: (<NoData />) as any,
       noResultsFound: (<NoData />) as any,
     },
-    initialState:{
-      columnVisibility:{
+    initialState: {
+      density: "compact",
+      columnVisibility: {
         schoolId: false,
         classId: false,
         studentId: false,
         schoolName: false,
-      }
+      },
     },
     enableFullScreenToggle: false,
   });
@@ -56,9 +115,11 @@ const Attendance: React.FC = () => {
         getAttendanceDetails({
           schoolId: userDetails?.schoolId!,
           classId: classId,
-          attendanceDate: parseAndFormatDate(formik.values.attendanceDate),
+          attendanceDate: moment(new Date(attendanceDate)).format("DD/MM/YYYY"),
         })
       );
+    } else {
+      dispatch(clearAttendance());
     }
   }, [className, attendanceDate, userDetails]);
   useEffect(() => {
@@ -82,7 +143,7 @@ const Attendance: React.FC = () => {
     context: PickerChangeHandlerContext<DateValidationError>
   ) => {
     formik.setFieldValue("attendanceDate", value);
-    setAttendanceDate(value!.toString());
+    setAttendanceDate(value!);
   };
   const handleSubmitClick = () => {};
   {
@@ -102,7 +163,8 @@ const Attendance: React.FC = () => {
       <AttendanceHeader
         handleClassOnChange={handleClassOnChange}
         handleDateOnChange={handleDateOnChange}
-        attendanceDate={moment(attendanceDate).toDate()}
+        attendanceDate={new Date(attendanceDate)}
+        masterData={masterData}
       />
       <Divider sx={{ mt: 1 }}></Divider>
       <MaterialReactTableField table={table} />

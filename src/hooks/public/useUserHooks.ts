@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store";
-import { selectUser, setUser } from "../store/slices/authSlice";
-import { IUserState } from "../store/slices/ISlices";
+import { AppDispatch } from "../../store";
+import { selectUser, setUser } from "../../store/slices/authSlice";
+import { IUserState } from "../../store/slices/ISlices";
 
 export const useIsAuthUserLoggedInHook = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);

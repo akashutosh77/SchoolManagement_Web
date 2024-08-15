@@ -1,6 +1,5 @@
 import {
   AutocompletePropsSizeOverrides,
-  AutocompleteValue,
   ButtonPropsSizeOverrides,
   TextFieldPropsSizeOverrides,
   TextFieldVariants,
@@ -14,7 +13,7 @@ import {
 } from "@mui/x-date-pickers";
 import { MRT_TableInstance } from "material-react-table";
 import { SyntheticEvent } from "react";
-import { IUserState } from "store/slices/ISlices";
+import { IMasterDataProps, IUserState } from "store/slices/ISlices";
 import { Idrpdown } from "../ICommonUtils";
 import { TSelectFieldChange, TVariant } from "../TCommonUtils";
 
@@ -27,7 +26,9 @@ export interface IReusableAutocompleteProps {
     value: Idrpdown | null
   ) => void;
   isOptionEqualToValue?: (option: Idrpdown, value: Idrpdown) => boolean;
-  size?:OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides> | undefined
+  size?:
+    | OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides>
+    | undefined;
   style?: object;
 }
 export interface ICircularLoaderProps {
@@ -79,7 +80,7 @@ export interface IDatePickerProps {
   ) => void;
   slotProps?: DatePickerSlotsComponentsProps<Date> | undefined;
   style?: object;
-  format: string | undefined
+  format: string | undefined;
 }
 
 export interface IInputFieldProps {
@@ -152,21 +153,24 @@ export interface IMaterialReactTableFieldProps {
 
 export interface ITeachersProps {
   urlAfterPrivate: string;
-  userDetails:IUserState
+  userDetails: IUserState;
+  masterData: IMasterDataProps;
 }
 
-export interface IAttendanceProps{
-  table: MRT_TableInstance<any>
+export interface IAttendanceProps {
+  masterData: IMasterDataProps;
 }
 
-export interface IAttendanceHeaderProps{
-  handleClassOnChange: (event: React.SyntheticEvent, newValue: Idrpdown | null)=>void
+export interface IAttendanceHeaderProps {
+  handleClassOnChange: (
+    event: React.SyntheticEvent,
+    newValue: Idrpdown | null
+  ) => void;
   //handleClassOnChange:  (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void
   handleDateOnChange: (
     value: Date | null,
     context: PickerChangeHandlerContext<DateValidationError>
   ) => void;
-  attendanceDate?: Date,
+  attendanceDate?: Date;
+  masterData: IMasterDataProps;
 }
-
-

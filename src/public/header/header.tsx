@@ -1,7 +1,7 @@
 import {
   useAuthUserDetailsHook,
   useIsAuthUserLoggedInHook,
-} from "hooks/useUserHooks";
+} from "hooks/public/useUserHooks";
 import DrawerAppBar from "public/header/drawerAppBar";
 import * as React from "react";
 import { useState } from "react";

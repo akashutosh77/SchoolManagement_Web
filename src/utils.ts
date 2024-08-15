@@ -11,52 +11,7 @@ export enum ROLES {
 export const urlOfTeacherAttendance = "attendance";
 export const attendanceByTeacher = "attendanceByTeacher";
 
-export const columns = [
-  {
-    accessorKey: "schoolId", // accessor is the "key" in the data
-    header: "schoolId",
-  },
-  {
-    accessorKey: "classId",
-    header: "classId",
-  },
-  {
-    accessorKey: "studentId",
-    header: "studentId",
-  },
-  {
-    accessorKey: "schoolName",
-    header: "schoolName",
-  },
-  {
-    accessorKey: "className",
-    header: "className",
-  },
-  {
-    accessorKey: "firstName",
-    header: "firstName",
-  },
-  {
-    accessorKey: "middleName",
-    header: "middleName",
-  },
-  {
-    accessorKey: "lastName",
-    header: "lastName",
-  },
-  {
-    accessorKey: "photoURL",
-    header: "photoURL",
-  },
-  {
-    accessorKey: "attendanceStatus",
-    header: "attendanceStatus",
-  },
-  {
-    accessorKey: "remarks",
-    header: "remarks",
-  },
-];
+
 
 /**
  * Convert a Date object to a string in the format "DD/MM/YYYY"

@@ -58,3 +58,22 @@ export interface IAttendanceProps {
   status?: "idle" | "loading" | "succeeded" | "failed";
   error?: string | null;
 }
+
+export interface IClassesDataProps {
+  classId: number;
+  className: string;
+  description: string;
+  schoolId: number;
+  name: string;
+  section: string;
+}
+export interface IAttendanceStatusesProps {
+  attendanceStatusId: number;
+  attendanceStatus: string;
+}
+export interface IMasterDataProps {
+  classesData: IClassesDataProps[];
+  attendanceStatuses: IAttendanceStatusesProps[];
+  status?: "idle" | "loading" | "succeeded" | "failed";
+  error?: string | null;
+}

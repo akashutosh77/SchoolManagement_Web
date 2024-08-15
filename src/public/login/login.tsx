@@ -5,12 +5,12 @@ import { InputField } from "../../components/InputField";
 import { useNavigate } from "react-router-dom";
 import { loginValidationSchema } from "./validations";
 import { loginInitialValues } from "./initialValues";
-import { useAuthHandlerHook } from "../../hooks/useAuthHandlerHook";
+import { useAuthHandlerHook } from "../../hooks/public/useAuthHandlerHook";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import {
   useAuthUserDetailsHook,
   useIsAuthUserLoggedInHook,
-} from "../../hooks/useUserHooks";
+} from "../../hooks/public/useUserHooks";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();

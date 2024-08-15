@@ -2,9 +2,9 @@ import { useGoogleLogin } from "@react-oauth/google";
 import CryptoJS from "crypto-js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch } from "../store";
-import { loginUser, loginUserWithGoogle } from "../store/actions/authActions";
-import { clearUser} from "../store/slices/authSlice";
+import { AppDispatch } from "../../store";
+import { loginUser, loginUserWithGoogle } from "../../store/actions/authActions";
+import { clearUser} from "../../store/slices/authSlice";
 import { useState } from "react";
 
 
