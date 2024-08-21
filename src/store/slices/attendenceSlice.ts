@@ -42,7 +42,7 @@ const attendanceSlice = createSlice({
 });
 
 export const { clearAttendance } = attendanceSlice.actions;
-
+export const selectAttendance = (state: RootState) => state.attendance;
 export const selectAttendanceData = (state: RootState) => state.attendance.attendanceData;
 export const selectStudentData = (state: RootState)=> state.attendance.studentsData;
 

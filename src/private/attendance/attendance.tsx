@@ -3,130 +3,104 @@ import {
   DateValidationError,
   PickerChangeHandlerContext,
 } from "@mui/x-date-pickers";
-import { IAttendanceProps } from "components/IComponents";
-import MaterialReactTableField from "components/MaterialReactTableField";
+import { CircularLoader } from "components/CircularLoader";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useAuthUserDetailsHook } from "hooks/public/useUserHooks";
 import { Idrpdown } from "ICommonUtils";
-import { MRT_Cell, MRT_Row, useMaterialReactTable } from "material-react-table";
 import moment from "moment";
-import NoData from "noData";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "store";
 import { getAttendanceDetails } from "store/actions/attendanceActions";
-import { IAttendance } from "store/slices/ISlices";
-import { parseAndFormatDate } from "utils";
+import { IAttendance, IAttendanceProps } from "store/slices/ISlices";
 import {
   clearAttendance,
+  selectAttendance,
   selectAttendanceData,
+  selectStudentData,
 } from "../../store/slices/attendenceSlice";
 import AttendanceHeader from "./attendanceHeader";
 import { attendanceInitialValues } from "./attendanceInitialValues";
-import { MRT_ColumnDef } from "material-react-table";
+import AttendanceTable from "./attendanceTable";
 
 const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
-  const attendanceData = useSelector(selectAttendanceData);
-  const [data, setData] = useState<IAttendance[]>([]);
+  const selectedAttendance = useSelector(selectAttendance);
+  const selectedAttendanceData = useSelector(selectAttendanceData);
+  const selectedStudentsData = useSelector(selectStudentData);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [attendanceData, setAttendanceData] = useState<IAttendance[]>([]);
   const [className, setClassName] = useState("");
   const [attendanceDate, setAttendanceDate] = useState<Date>(new Date());
   const [classId, setClassId] = useState<number>(0);
   const userDetails = useAuthUserDetailsHook();
   const dispatch = useDispatch<AppDispatch>();
-  const columns: MRT_ColumnDef<IAttendance>[] = [
-    {
-      accessorKey: "name",
-      header: "Name",
-      Cell: ({
-        cell,
-        row,
-      }: {
-        cell: MRT_Cell<IAttendance>;
-        row: MRT_Row<IAttendance>;
-      }) => (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <img
-            src={row.original.photoURL}
-            alt="Student Photo"
-            style={{
-              width: 50,
-              height: 50,
-              objectFit: "cover",
-              borderRadius: "50%",
-              marginRight: 10,
-            }}
-          />
-          <div>
-            <div>
-              {row.original.firstName} {row.original.middleName}{" "}
-              {row.original.lastName}
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "schoolId", // accessor is the "key" in the data
-      header: "schoolId",
-    },
-    {
-      accessorKey: "classId",
-      header: "classId",
-    },
-    {
-      accessorKey: "studentId",
-      header: "studentId",
-    },
-    {
-      accessorKey: "schoolName",
-      header: "schoolName",
-    },
-    {
-      accessorKey: "attendanceStatus",
-      header: "Status",
-    },
-    {
-      accessorKey: "remarks",
-      header: "remarks",
-    },
-  ];
-  const table = useMaterialReactTable({
-    columns,
-    data,
-    localization: {
-      noRecordsToDisplay: (<NoData />) as any,
-      noResultsFound: (<NoData />) as any,
-    },
-    initialState: {
-      density: "compact",
-      columnVisibility: {
-        schoolId: false,
-        classId: false,
-        studentId: false,
-        schoolName: false,
-      },
-    },
-    enableFullScreenToggle: false,
-  });
 
   useEffect(() => {
-    if (className && attendanceDate && userDetails) {
-      dispatch(
-        getAttendanceDetails({
-          schoolId: userDetails?.schoolId!,
-          classId: classId,
-          attendanceDate: moment(new Date(attendanceDate)).format("DD/MM/YYYY"),
-        })
-      );
-    } else {
-      dispatch(clearAttendance());
+    formik.resetForm();
+    dispatch(clearAttendance());
+  }, []);
+  useEffect(() => {
+    if (selectedAttendanceData?.length! > 0) {
+      setAttendanceData(selectedAttendanceData!);
+    } else if (selectedStudentsData?.length! > 0) {
+      setAttendanceData(selectedStudentsData!);
     }
+    else{
+        setAttendanceData([]);
+    }
+  }, [selectedAttendanceData, selectedStudentsData]);
+  useEffect(() => {
+    const fetchData = async () => {
+      formik.resetForm();
+      dispatch(clearAttendance());
+      if (className && attendanceDate && userDetails) {
+        try {
+          await dispatch(
+            getAttendanceDetails({
+              schoolId: userDetails?.schoolId!,
+              classId: classId,
+              attendanceDate: moment(new Date(attendanceDate)).format(
+                "DD/MM/YYYY"
+              ),
+            })
+          );
+        } finally {
+        }
+      }
+    };
+
+    fetchData();
   }, [className, attendanceDate, userDetails]);
   useEffect(() => {
-    if (attendanceData) {
-      setData(attendanceData);
+    if (attendanceData.length > 0) {
+      formik.setFieldValue("attendanceTable", attendanceData);
     }
   }, [attendanceData]);
+  useEffect(() => {
+    console.log("selectedAttendance status is", selectedAttendance.status);
+    if (selectedAttendance.status == "loading") {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [selectedAttendance]);
+
+  const handleAttendanceStatusChange = (
+    event: React.SyntheticEvent,
+    newValue: Idrpdown | null,
+    studentId: number,
+    index: number
+  ) => {
+    formik.handleChange(event);
+    formik.setFieldValue(
+      `attendanceTable[${index}].attendanceStatus`,
+      newValue?.label
+    );
+    formik.setFieldValue(
+      `attendanceTable[${index}].attendanceStatusId`,
+      newValue?.id
+    );
+  };
 
   const handleClassOnChange = (
     event: React.SyntheticEvent,
@@ -138,6 +112,7 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
     setClassName(newValue!.label);
     setClassId(parseInt(newValue!.id));
   };
+
   const handleDateOnChange = (
     value: Date | null,
     context: PickerChangeHandlerContext<DateValidationError>
@@ -145,9 +120,10 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
     formik.setFieldValue("attendanceDate", value);
     setAttendanceDate(value!);
   };
-  const handleSubmitClick = () => {};
-  {
-  }
+
+  const handleSubmitClick = () => {
+    // Handle the form submission logic
+  };
 
   const formik = useFormik({
     initialValues: attendanceInitialValues,
@@ -158,18 +134,28 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
 
   console.log("the formik values are", formik.values);
   return (
-    <FormikProvider value={formik}>
-      <Form onSubmit={formik.handleSubmit}></Form>
-      <AttendanceHeader
-        handleClassOnChange={handleClassOnChange}
-        handleDateOnChange={handleDateOnChange}
-        attendanceDate={new Date(attendanceDate)}
-        masterData={masterData}
-      />
-      <Divider sx={{ mt: 1 }}></Divider>
-      <MaterialReactTableField table={table} />
-      <Button onClick={handleSubmitClick}>Submit</Button>
-    </FormikProvider>
+    <CircularLoader loading={loading}>
+      <FormikProvider value={formik}>
+        <Form onSubmit={formik.handleSubmit}></Form>
+        <AttendanceHeader
+          handleClassOnChange={handleClassOnChange}
+          handleDateOnChange={handleDateOnChange}
+          attendanceDate={new Date(attendanceDate)}
+          masterData={masterData!}
+        />
+        <Divider sx={{ mt: 1, mb: 2 }}></Divider>
+
+        <AttendanceTable
+          attendanceData={attendanceData}
+          masterData={masterData}
+          handleAttendanceStatusChange={handleAttendanceStatusChange}
+          formik={formik}
+        />
+
+        <Button variant="contained" onClick={handleSubmitClick}>Submit</Button>
+      </FormikProvider>
+    </CircularLoader>
   );
 };
+
 export default Attendance;

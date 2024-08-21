@@ -1,3 +1,6 @@
+import { FormikProps } from "formik";
+import { Idrpdown } from "ICommonUtils";
+
 export interface IUserState {
   userId: number | null;
   name: string;
@@ -51,9 +54,16 @@ export interface IStudent {
   admissionDate?: Date;
   photoURL?: string;
 }
+
 export interface IAttendanceProps {
-  attendanceData: IAttendance[];
-  studentsData: IStudent[];
+  attendanceData?: IAttendance[];
+  studentsData?: IStudent[];
+  masterData?: IMasterDataProps;
+  handleAttendanceStatusChange?: (event: React.SyntheticEvent, newValue: Idrpdown | null, studentId: number, index: number) => void
+  formik?: FormikProps<{    class: string,
+    attendanceDate: string,
+    classId:number,
+    attendanceTable:never[]}>;
   // Add other fields as necessary
   status?: "idle" | "loading" | "succeeded" | "failed";
   error?: string | null;

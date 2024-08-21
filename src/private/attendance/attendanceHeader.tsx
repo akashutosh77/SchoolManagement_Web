@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import AutocompleteField from "components/AutoComplete";
 import { DatePickerField } from "components/DatePickerField";
 import { IAttendanceHeaderProps } from "components/IComponents";
+import { Idrpdown } from "ICommonUtils";
 
 const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
   handleClassOnChange,
@@ -9,10 +10,6 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
   attendanceDate,
   masterData,
 }) => {
-  {
-    console.log("the master data from header is", JSON.stringify(masterData));
-    console.log("the date is", attendanceDate);
-  }
   return (
     <Box>
       <Grid container spacing={2}>
@@ -27,15 +24,12 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
           <AutocompleteField
             size="small"
             onChange={handleClassOnChange}
-            options={[
-              { id: "1", label: "FirstA" },
-              { id: "2", label: "FirstB" },
-              { id: "3", label: "SecondA" },
-              { id: "4", label: "SecondB" },
-            ]}
+            options={masterData.classesData.map((x) => ({
+              id: x.classId.toString(),
+              label: x.className,
+            }))}
             label="Select Class"
             name="class"
-            //style={{width:200}}
           />
         </Grid>
         <Grid item xs={6} sx={{ textAlign: "right" }}>

@@ -30,6 +30,7 @@ export interface IReusableAutocompleteProps {
     | OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides>
     | undefined;
   style?: object;
+  value?: Idrpdown;
 }
 export interface ICircularLoaderProps {
   loading: boolean;
@@ -84,6 +85,8 @@ export interface IDatePickerProps {
 }
 
 export interface IInputFieldProps {
+  value?: string;
+  defaultValue?: unknown;
   name: string;
   label: string;
   type?: React.HTMLInputTypeAttribute;
@@ -157,8 +160,17 @@ export interface ITeachersProps {
   masterData: IMasterDataProps;
 }
 
-export interface IAttendanceProps {
-  masterData: IMasterDataProps;
+// export interface IAttendanceProps {
+//   masterData: IMasterDataProps;
+// }
+
+export interface IAttendanceTableProps {
+  attendanceTableData: {
+    photoURL: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+  }[];
 }
 
 export interface IAttendanceHeaderProps {
