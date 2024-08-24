@@ -36,6 +36,7 @@ export interface IAttendance {
   photoURL?: string;
   attendanceDate?: Date;
   attendanceStatus?: string;
+  attendanceStatusId?: string;
   remarks?: string;
 }
 

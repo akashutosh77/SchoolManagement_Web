@@ -4,7 +4,12 @@ import { IAttendance, IAttendanceProps } from "store/slices/ISlices";
 import { FieldArray } from "formik";
 import AutocompleteField from "components/AutoComplete";
 import { InputField } from "components/InputField";
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+import {
+  ReactElement,
+  JSXElementConstructor,
+  ReactNode,
+  ReactPortal,
+} from "react";
 
 const AttendanceTable: React.FC<IAttendanceProps> = ({
   attendanceData,
@@ -40,6 +45,10 @@ const AttendanceTable: React.FC<IAttendanceProps> = ({
               </Grid>
               <Grid item xs={4}>
                 <AutocompleteField
+                  value={{
+                    id: data.attendanceStatusId!,
+                    label: data.attendanceStatus!,
+                  }}
                   onChange={(event, newValue) =>
                     handleAttendanceStatusChange!(
                       event,
@@ -58,7 +67,13 @@ const AttendanceTable: React.FC<IAttendanceProps> = ({
                 />
               </Grid>
               <Grid item xs={4}>
-                <InputField value={data.remarks} size="small" variant="outlined" label="Remarks" name={`attendanceTable[${index}].remarks`} />
+                <InputField
+                  value={data.remarks}
+                  size="small"
+                  variant="outlined"
+                  label="Remarks"
+                  name={`attendanceTable[${index}].remarks`}
+                />
               </Grid>
             </>
           ))}

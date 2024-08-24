@@ -22,6 +22,7 @@ import {
 import AttendanceHeader from "./attendanceHeader";
 import { attendanceInitialValues } from "./attendanceInitialValues";
 import AttendanceTable from "./attendanceTable";
+import { attendanceValidationScheme } from "./attendanceValidationSchema";
 
 const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   const selectedAttendance = useSelector(selectAttendance);
@@ -122,21 +123,23 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   };
 
   const handleSubmitClick = () => {
-    // Handle the form submission logic
+   formik.handleSubmit()
   };
 
   const formik = useFormik({
     initialValues: attendanceInitialValues,
+    validationSchema: attendanceValidationScheme,
     onSubmit: (values) => {
-      console.log(values);
+      console.log('onSubmit has fired');
     },
   });
 
-  console.log("the formik values are", formik.values);
+  console.log("the formik values are", formik);
+  console.log('the formik errors are', formik.errors);
   return (
     <CircularLoader loading={loading}>
       <FormikProvider value={formik}>
-        <Form onSubmit={formik.handleSubmit}></Form>
+        <Form onSubmit={formik.handleSubmit}>
         <AttendanceHeader
           handleClassOnChange={handleClassOnChange}
           handleDateOnChange={handleDateOnChange}
@@ -153,6 +156,7 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
         />
 
         <Button variant="contained" onClick={handleSubmitClick}>Submit</Button>
+        </Form>
       </FormikProvider>
     </CircularLoader>
   );
