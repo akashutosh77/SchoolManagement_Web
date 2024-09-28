@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { Styles } from "./Styles";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ConfirmationDialog = ({
