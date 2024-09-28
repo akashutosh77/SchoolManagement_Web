@@ -33,9 +33,25 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   const [className, setClassName] = useState("");
   const [attendanceDate, setAttendanceDate] = useState<Date>(new Date());
   const [classId, setClassId] = useState<number>(0);
-  const userDetails = useAuthUserDetailsHook();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 10;
+  const [endIndex, setEndIndex] = useState(startIndex + itemsPerPage);
+  const [currentItems, setCurrentItems] = useState<IAttendance[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
+  const userDetails = useAuthUserDetailsHook();
 
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    setStartIndex(startIndex);
+    const endIndex = startIndex + itemsPerPage
+    setEndIndex(startIndex + itemsPerPage);
+    setCurrentItems(formik?.values.attendanceTable.slice(startIndex, endIndex));
+  }, [currentPage]);
+  useEffect(()=>{
+    setCurrentItems(attendanceData.slice(startIndex, endIndex));
+  },[startIndex,endIndex])
   useEffect(() => {
     formik.resetForm();
     dispatch(clearAttendance());
@@ -45,14 +61,12 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
       setAttendanceData(selectedAttendanceData!);
     } else if (selectedStudentsData?.length! > 0) {
       setAttendanceData(selectedStudentsData!);
-    }
-    else{
-        setAttendanceData([]);
+    } else {
+      setAttendanceData([]);
     }
   }, [selectedAttendanceData, selectedStudentsData]);
   useEffect(() => {
     const fetchData = async () => {
-      formik.resetForm();
       dispatch(clearAttendance());
       if (className && attendanceDate && userDetails) {
         try {
@@ -74,11 +88,20 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   }, [className, attendanceDate, userDetails]);
   useEffect(() => {
     if (attendanceData.length > 0) {
+      console.log(`the startIndex${startIndex} and the end index ${endIndex}`)
       formik.setFieldValue("attendanceTable", attendanceData);
+      attendanceData.map((value,index)=>{
+        formik.setFieldValue(`attendanceTable[${
+                      index 
+                    }].attendanceStatus`, value.attendanceStatus)
+      })
+
+      setTotalPages(Math.ceil(attendanceData.length / itemsPerPage))
+      setCurrentPage(1);
+      setCurrentItems(attendanceData.slice(startIndex, endIndex));
     }
   }, [attendanceData]);
   useEffect(() => {
-    console.log("selectedAttendance status is", selectedAttendance.status);
     if (selectedAttendance.status == "loading") {
       setLoading(true);
     } else {
@@ -88,30 +111,31 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
 
   const handleAttendanceStatusChange = (
     event: React.SyntheticEvent,
-    newValue: Idrpdown | null,
+    newValue: string | null,
     studentId: number,
     index: number
   ) => {
     formik.handleChange(event);
     formik.setFieldValue(
       `attendanceTable[${index}].attendanceStatus`,
-      newValue?.label
+     newValue
     );
     formik.setFieldValue(
       `attendanceTable[${index}].attendanceStatusId`,
-      newValue?.id
+      masterData?.attendanceStatuses.find(x=>x.attendanceStatus==newValue)?.attendanceStatusId
     );
   };
 
   const handleClassOnChange = (
     event: React.SyntheticEvent,
-    newValue: Idrpdown | null
+    newValue: string | null
   ) => {
+    formik.resetForm();
     formik.handleChange(event);
-    formik.setFieldValue("class", newValue?.label);
-    formik.setFieldValue("classId", newValue?.id);
-    setClassName(newValue!.label);
-    setClassId(parseInt(newValue!.id));
+    formik.setFieldValue("class", newValue);
+    formik.setFieldValue("classId", masterData?.classesData.find(x=>x.className==newValue)?.classId);
+    setClassName(newValue!);
+    setClassId(masterData?.classesData.find(x=>x.className==newValue)?.classId!);
   };
 
   const handleDateOnChange = (
@@ -123,39 +147,48 @@ const Attendance: React.FC<IAttendanceProps> = ({ masterData }) => {
   };
 
   const handleSubmitClick = () => {
-   formik.handleSubmit()
+    formik.handleSubmit();
   };
-
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
   const formik = useFormik({
     initialValues: attendanceInitialValues,
     validationSchema: attendanceValidationScheme,
     onSubmit: (values) => {
-      console.log('onSubmit has fired');
+      console.log("onSubmit has fired");
     },
   });
 
   console.log("the formik values are", formik);
-  console.log('the formik errors are', formik.errors);
+  console.log("the formik errors are", formik.errors);
   return (
     <CircularLoader loading={loading}>
       <FormikProvider value={formik}>
         <Form onSubmit={formik.handleSubmit}>
-        <AttendanceHeader
-          handleClassOnChange={handleClassOnChange}
-          handleDateOnChange={handleDateOnChange}
-          attendanceDate={new Date(attendanceDate)}
-          masterData={masterData!}
-        />
-        <Divider sx={{ mt: 1, mb: 2 }}></Divider>
+          <AttendanceHeader
+            handleClassOnChange={handleClassOnChange}
+            handleDateOnChange={handleDateOnChange}
+            attendanceDate={new Date(attendanceDate)}
+            masterData={masterData!}
+          />
+          <Divider sx={{ mt: 1, mb: 2 }}></Divider>
 
-        <AttendanceTable
-          attendanceData={attendanceData}
-          masterData={masterData}
-          handleAttendanceStatusChange={handleAttendanceStatusChange}
-          formik={formik}
-        />
+          <AttendanceTable
+            attendanceData={attendanceData}
+            masterData={masterData}
+            handleAttendanceStatusChange={handleAttendanceStatusChange}
+            handlePageChange={handlePageChange}
+            currentItems={currentItems}
+            startIndex={startIndex}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            formik={formik}
+          />
 
-        <Button variant="contained" onClick={handleSubmitClick}>Submit</Button>
+          <Button variant="contained" onClick={handleSubmitClick}>
+            Submit
+          </Button>
         </Form>
       </FormikProvider>
     </CircularLoader>

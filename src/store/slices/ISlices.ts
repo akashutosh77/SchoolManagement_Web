@@ -60,7 +60,7 @@ export interface IAttendanceProps {
   attendanceData?: IAttendance[];
   studentsData?: IStudent[];
   masterData?: IMasterDataProps;
-  handleAttendanceStatusChange?: (event: React.SyntheticEvent, newValue: Idrpdown | null, studentId: number, index: number) => void
+  handleAttendanceStatusChange?: (event: React.SyntheticEvent, newValue: string | null, studentId: number, index: number) => void
   formik?: FormikProps<{    class: string,
     attendanceDate: string,
     classId:number,
@@ -68,6 +68,11 @@ export interface IAttendanceProps {
   // Add other fields as necessary
   status?: "idle" | "loading" | "succeeded" | "failed";
   error?: string | null;
+  handlePageChange?:(newPage: number)=>void
+  currentItems?:IAttendance[],
+  startIndex?: number,
+  currentPage?: number,
+  totalPages?: number
 }
 
 export interface IClassesDataProps {

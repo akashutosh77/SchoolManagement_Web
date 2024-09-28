@@ -24,10 +24,7 @@ const AttendanceHeader: React.FC<IAttendanceHeaderProps> = ({
           <AutocompleteField
             size="small"
             onChange={handleClassOnChange}
-            options={masterData.classesData.map((x) => ({
-              id: x.classId.toString(),
-              label: x.className,
-            }))}
+            options={masterData.classesData.map((x) => x.className)}
             label="Select Class"
             name="class"
           />

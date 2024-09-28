@@ -20,17 +20,16 @@ import { TSelectFieldChange, TVariant } from "../TCommonUtils";
 export interface IReusableAutocompleteProps {
   label: string;
   name: string;
-  options: Idrpdown[];
+  options: string[];
   onChange?: (
     e: SyntheticEvent<Element, Event>,
-    value: Idrpdown | null
+    value: string | null
   ) => void;
-  isOptionEqualToValue?: (option: Idrpdown, value: Idrpdown) => boolean;
+  isOptionEqualToValue?: (option: string, value: string) => boolean;
   size?:
     | OverridableStringUnion<"small" | "medium", AutocompletePropsSizeOverrides>
     | undefined;
   style?: object;
-  value?: Idrpdown;
 }
 export interface ICircularLoaderProps {
   loading: boolean;
@@ -176,7 +175,7 @@ export interface IAttendanceTableProps {
 export interface IAttendanceHeaderProps {
   handleClassOnChange: (
     event: React.SyntheticEvent,
-    newValue: Idrpdown | null
+    newValue: string | null
   ) => void;
   //handleClassOnChange:  (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>void
   handleDateOnChange: (

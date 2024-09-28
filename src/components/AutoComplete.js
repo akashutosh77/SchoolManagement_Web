@@ -1,11 +1,8 @@
 import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { useField } from 'formik';
-import { IReusableAutocompleteProps } from './IComponents';
 
-
-
-const AutocompleteField: React.FC<IReusableAutocompleteProps> = ({ label, name,options,size, ...rest }) => {
+const AutocompleteField = ({ label, name, options, size, ...rest }) => {
   const [field, meta, helpers] = useField(name);
   return (
     <Autocomplete
@@ -14,10 +11,7 @@ const AutocompleteField: React.FC<IReusableAutocompleteProps> = ({ label, name,o
       options={options}
       disableClearable
       getOptionLabel={(option) => option}
-      isOptionEqualToValue={(option, value)=>option==value}
-      // onChange={(event, newValue) => {
-      //   helpers.setValue(newValue); // Set the entire selected option object
-      // }}
+      isOptionEqualToValue={(option, value) => option == value}
       {...rest}
       renderInput={(params) => (
         <TextField
@@ -28,13 +22,13 @@ const AutocompleteField: React.FC<IReusableAutocompleteProps> = ({ label, name,o
           error={meta.touched && !!meta.error}
           helperText={meta.touched && meta.error}
           fullWidth
-          sx={{...rest.style}}
+          sx={{ ...rest.style }}
           variant="outlined"
         />
       )}
-    
     />
   );
 };
 
 export default AutocompleteField;
+
