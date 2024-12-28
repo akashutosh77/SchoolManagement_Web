@@ -1,13 +1,11 @@
-export let ROLES
-
-;(function(ROLES) {
-  ROLES["Super"] = "Super"
-  ROLES["Administrator"] = "Administrator"
-  ROLES["Teacher"] = "Teacher"
-  ROLES["Student"] = "Student"
-  ROLES["Parent"] = "Parent"
-  ROLES["Staff"] = "Staff"
-})(ROLES || (ROLES = {}))
+export const ROLES = {
+  Super: "Super",
+  Administrator: "Administrator",
+  Teacher: "Teacher",
+  Student: "Student",
+  Parent: "Parent",
+  Staff: "Staff"
+}
 
 export const urlOfTeacherAttendance = "attendance"
 export const attendanceByTeacher = "attendanceByTeacher"
