@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { loginUser, loginUserWithGoogle } from "../actions/authActions"
 
+
 const initialState = {
   userId: null,
   name: "",
@@ -27,7 +28,7 @@ const authSlice = createSlice({
       return { ...state, ...action.payload }
     },
     clearUser: () => {
-      localStorage.clear()
+      localStorage.clear();
       return initialState
     }
   },

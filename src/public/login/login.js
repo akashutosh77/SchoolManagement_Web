@@ -7,7 +7,7 @@ import { loginValidationSchema } from "./validations"
 import { loginInitialValues } from "./initialValues"
 import { useAuthHandlerHook } from "../../hooks/public/useAuthHandlerHook"
 import ConfirmationDialog from "../../components/ConfirmationDialog"
-import { useIsAuthUserLoggedInHook } from "../../hooks/public/useUserHooks"
+import { useIsUserLoggedInHook } from "../../hooks/public/useUserHooks"
 
 const Login = () => {
   const navigate = useNavigate()
@@ -17,7 +17,7 @@ const Login = () => {
     isLoginFailed,
     setIsLoginFailed
   } = useAuthHandlerHook()
-  const isUserLoggedIn = useIsAuthUserLoggedInHook()
+  const isUserLoggedIn = useIsUserLoggedInHook()
   useEffect(() => {
     if (isUserLoggedIn) {
       navigate("/private")

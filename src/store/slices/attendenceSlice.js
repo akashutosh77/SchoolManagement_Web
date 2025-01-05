@@ -12,7 +12,7 @@ const attendanceSlice = createSlice({
   name: "attendance",
   initialState,
   reducers: {
-    clearAttendance: () => {
+    clearAttendanceData: () => {
       return initialState
     }
   },
@@ -39,7 +39,7 @@ const attendanceSlice = createSlice({
   }
 })
 
-export const { clearAttendance } = attendanceSlice.actions
+export const { clearAttendanceData } = attendanceSlice.actions
 export const selectAttendance = state => state.attendance
 export const selectAttendanceData = state => state.attendance.attendanceData
 export const selectStudentData = state => state.attendance.studentsData

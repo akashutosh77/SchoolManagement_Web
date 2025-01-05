@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAttendanceDetails } from "store/actions/attendanceActions"
 import {
-  clearAttendance,
+  clearAttendanceData,
   selectAttendance,
   selectAttendanceData,
   selectStudentData
@@ -47,7 +47,7 @@ const Attendance = ({ masterData }) => {
   }, [startIndex, endIndex])
   useEffect(() => {
     formik.resetForm()
-    dispatch(clearAttendance())
+    dispatch(clearAttendanceData())
   }, [])
   useEffect(() => {
     if (selectedAttendanceData?.length > 0) {
@@ -60,7 +60,7 @@ const Attendance = ({ masterData }) => {
   }, [selectedAttendanceData, selectedStudentsData])
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(clearAttendance())
+      dispatch(clearAttendanceData())
       if (className && attendanceDate && userDetails) {
         try {
           await dispatch(

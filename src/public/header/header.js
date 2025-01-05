@@ -1,6 +1,6 @@
 import {
     useAuthUserDetailsHook,
-    useIsAuthUserLoggedInHook
+    useIsUserLoggedInHook
   } from "hooks/public/useUserHooks"
   import DrawerAppBar from "public/header/drawerAppBar"
   import * as React from "react"
@@ -12,7 +12,7 @@ import {
   
   const Header = () => {
     const userDetails = useAuthUserDetailsHook()
-    const isUserLoggedIn = useIsAuthUserLoggedInHook()
+    const isUserLoggedIn = useIsUserLoggedInHook()
     const [mobileOpen, setMobileOpen] = useState(false)
     const [openMenu, setOpenMenu] = useState({
       menu1: false,

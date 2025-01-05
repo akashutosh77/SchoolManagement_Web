@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectUser, setUser } from "../../store/slices/authSlice"
 
-export const useIsAuthUserLoggedInHook = () => {
+export const useIsUserLoggedInHook = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
@@ -22,15 +22,18 @@ export const useIsAuthUserLoggedInHook = () => {
 
   useEffect(() => {
     const retrievedUser = getUserFromStorage("user")
+
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
       setIsUserLoggedIn(true)
-    } else if (
+    } 
+    else if (
       retrievedUser &&
       !user.isLoggedInWithGoogle &&
       !user.isLoggedInWithUserNamePassword
     ) {
       dispatch(setUser(retrievedUser))
-    } else {
+    } 
+    else {
       setIsUserLoggedIn(false)
     }
   }, [user])

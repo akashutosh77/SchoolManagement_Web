@@ -10,7 +10,7 @@
 // import { useDispatch, useSelector } from "react-redux"
 // import { getAttendanceDetails } from "store/actions/attendanceActions"
 // import {
-//   clearAttendance,
+//   clearAttendanceData,
 //   selectAttendanceData
 // } from "../../store/slices/attendenceSlice"
 // import AttendanceHeader from "./attendanceHeader"
@@ -126,7 +126,7 @@
 //         })
 //       )
 //     } else {
-//       dispatch(clearAttendance())
+//       dispatch(clearAttendanceData())
 //     }
 //   }, [className, attendanceDate, userDetails])
 
