@@ -1,57 +1,54 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { selectUser, setUser } from "../../store/slices/authSlice"
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser, setUser } from "../../store/slices/authSlice";
 
 export const useIsUserLoggedInHook = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
-  const user = useSelector(selectUser)
-  const dispatch = useDispatch()
-  const getUserFromStorage = key => {
-    const valueJson = localStorage.getItem(key)
+  let isUserLoggedIn = false;
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const getUserFromStorage = (key) => {
+    const valueJson = localStorage.getItem(key);
     if (valueJson) {
       try {
-        return JSON.parse(valueJson)
+        return JSON.parse(valueJson);
       } catch (error) {
-        console.error("Error parsing JSON from local storage", error)
-        return null
+        console.error("Error parsing JSON from local storage", error);
+        return null;
       }
     }
 
-    return null
+    return null;
+  };
+  const retrievedUser = getUserFromStorage("user");
+  if (
+    (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) &&
+    retrievedUser
+  ) {
+    isUserLoggedIn = true;
+  } else {
+    isUserLoggedIn = false;
   }
-
-  useEffect(() => {
-    const retrievedUser = getUserFromStorage("user")
-
-    if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
-      setIsUserLoggedIn(true)
-    } 
-    else if (
-      retrievedUser &&
-      !user.isLoggedInWithGoogle &&
-      !user.isLoggedInWithUserNamePassword
-    ) {
-      dispatch(setUser(retrievedUser))
-    } 
-    else {
-      setIsUserLoggedIn(false)
-    }
-  }, [user])
-
-  return isUserLoggedIn
-}
+  if (
+    retrievedUser &&
+    !user.isLoggedInWithGoogle &&
+    !user.isLoggedInWithUserNamePassword
+  ) {
+    dispatch(setUser(retrievedUser));
+  }
+  return isUserLoggedIn;
+};
 
 export const useAuthUserDetailsHook = () => {
-  const [authUserDetails, setAuthUserDetails] = useState(null)
-  const user = useSelector(selectUser)
+  const [authUserDetails, setAuthUserDetails] = useState(null);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (user.isLoggedInWithGoogle || user.isLoggedInWithUserNamePassword) {
-      setAuthUserDetails(user)
+      setAuthUserDetails(user);
     } else {
-      setAuthUserDetails(null)
+      setAuthUserDetails(null);
     }
-  }, [user])
+  }, [user]);
 
-  return authUserDetails
-}
+  return authUserDetails;
+};
