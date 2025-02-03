@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAttendanceDetails } from "../actions/attendanceActions"
+import { getAttendanceDetails, insertOrUpdateAttendanceDetails } from "../actions/attendanceActions"
 
 const initialState = {
   attendanceData: [],
@@ -33,7 +33,25 @@ const attendanceSlice = createSlice({
         return {
           ...state,
           status: "failed",
-          error: action.error.message || "Failed to login"
+          error: action.error.message || "getAttendanceDetails failed"
+        }
+      })
+      .addCase(insertOrUpdateAttendanceDetails.pending, state => {
+        return { ...state, status: "loading", error: null }
+      })
+      .addCase(insertOrUpdateAttendanceDetails.fulfilled, (state, action) => {
+        return {
+          ...state,
+          ...action.payload,
+          status: "succeeded",
+          error: null
+        }
+      })
+      .addCase(insertOrUpdateAttendanceDetails.rejected, (state, action) => {
+        return {
+          ...state,
+          status: "failed",
+          error: action.error.message || "insertOrUpdateAttendanceDetails failed"
         }
       })
   }

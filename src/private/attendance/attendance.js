@@ -5,7 +5,7 @@ import { useAuthUserDetailsHook } from "hooks/public/useUserHooks"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getAttendanceDetails } from "store/actions/attendanceActions"
+import { getAttendanceDetails, insertOrUpdateAttendanceDetails } from "store/actions/attendanceActions"
 import {
   clearAttendanceData,
   selectAttendance,
@@ -105,6 +105,7 @@ const Attendance = ({ masterData }) => {
   const handleAttendanceStatusChange = (event, newValue, studentId, index) => {
     formik.handleChange(event)
     formik.setFieldValue(`attendanceTable[${index}].attendanceStatus`, newValue)
+    formik.setFieldValue(`attendanceTable[${index}].studentId`, studentId)
     formik.setFieldValue(
       `attendanceTable[${index}].attendanceStatusId`,
       masterData?.attendanceStatuses.find(x => x.attendanceStatus == newValue)
@@ -137,10 +138,32 @@ const Attendance = ({ masterData }) => {
   const handlePageChange = newPage => {
     setCurrentPage(newPage)
   }
+  const handleSubmit = (values) => {
+    const attendanceRecords = values?.attendanceTable?.map((value, index) => {
+      return {
+        schoolId: value?.schoolId,
+        classId: classId,
+        studentId: value?.studentId,
+        attendanceDate: attendanceDate,
+        attendanceStatusId: value?.attendanceStatusId,
+        remarks: value?.remarks
+      };
+    });
+    console.log('attendanceRecords', attendanceRecords)
+    dispatch(insertOrUpdateAttendanceDetails(attendanceRecords))
+      .unwrap()
+      .then((res) => {
+        console.log("Success:", res);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+  };
   const formik = useFormik({
     initialValues: attendanceInitialValues,
     validationSchema: attendanceValidationScheme,
     onSubmit: values => {
+      handleSubmit(values)
       console.log("onSubmit has fired")
     }
   })
