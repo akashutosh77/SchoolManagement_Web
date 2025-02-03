@@ -42,6 +42,7 @@ import {
       setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] })
       if (menu == attendanceByTeacher) {
         navigate(`private/${urlOfTeacherAttendance}`)
+        setMobileOpen(prevState => !prevState)
       }
     }
     const handleTopMenuItemClick = e => {

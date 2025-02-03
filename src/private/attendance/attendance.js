@@ -81,7 +81,6 @@ const Attendance = ({ masterData }) => {
   }, [className, attendanceDate, userDetails])
   useEffect(() => {
     if (attendanceData.length > 0) {
-      console.log(`the startIndex${startIndex} and the end index ${endIndex}`)
       formik.setFieldValue("attendanceTable", attendanceData)
       attendanceData.map((value, index) => {
         formik.setFieldValue(
