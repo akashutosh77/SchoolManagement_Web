@@ -16,8 +16,10 @@ import AttendanceHeader from "./attendanceHeader"
 import { attendanceInitialValues } from "./attendanceInitialValues"
 import AttendanceTable from "./attendanceTable"
 import { attendanceValidationScheme } from "./attendanceValidationSchema"
+import io from "socket.io-client";
 
 const Attendance = ({ masterData }) => {
+  const socket = io(process.env.REACT_APP_SOCKET_URL); // Replace with your backend URL
   const selectedAttendance = useSelector(selectAttendance)
   const selectedAttendanceData = useSelector(selectAttendanceData)
   const selectedStudentsData = useSelector(selectStudentData)
@@ -101,7 +103,25 @@ const Attendance = ({ masterData }) => {
       setLoading(false)
     }
   }, [selectedAttendance])
-
+  useEffect(() => {
+    // Listen for real-time updates from the server
+    socket.on("attendanceUpdated", () => {
+      dispatch(clearAttendanceData());
+  
+      // Fetch the latest attendance data
+      dispatch(
+        getAttendanceDetails({
+          schoolId: userDetails?.schoolId,
+          classId: classId,
+          attendanceDate: moment(new Date(attendanceDate)).format("DD/MM/YYYY"),
+        })
+      );
+    });
+  
+    // Cleanup on unmount
+    return () => socket.off("attendanceUpdated");
+  }, [classId, attendanceDate, userDetails, dispatch]);
+  
   const handleAttendanceStatusChange = (event, newValue, studentId, index) => {
     formik.handleChange(event)
     formik.setFieldValue(`attendanceTable[${index}].attendanceStatus`, newValue)
