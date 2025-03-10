@@ -19,7 +19,7 @@ import { attendanceValidationScheme } from "./attendanceValidationSchema"
 import io from "socket.io-client";
 
 const Attendance = ({ masterData }) => {
-  const socket = io(process.env.REACT_APP_SOCKET_URL); // Replace with your backend URL
+  const socket = io(process.env.REACT_APP_SOCKET_URL);
   const selectedAttendance = useSelector(selectAttendance)
   const selectedAttendanceData = useSelector(selectAttendanceData)
   const selectedStudentsData = useSelector(selectStudentData)
@@ -28,29 +28,14 @@ const Attendance = ({ masterData }) => {
   const [className, setClassName] = useState("")
   const [attendanceDate, setAttendanceDate] = useState(new Date())
   const [classId, setClassId] = useState(0)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [startIndex, setStartIndex] = useState(0)
-  const itemsPerPage = 10
-  const [endIndex, setEndIndex] = useState(startIndex + itemsPerPage)
-  const [currentItems, setCurrentItems] = useState([])
-  const [totalPages, setTotalPages] = useState(0)
   const dispatch = useDispatch()
   const userDetails = useAuthUserDetailsHook()
 
   useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    setStartIndex(startIndex)
-    const endIndex = startIndex + itemsPerPage
-    setEndIndex(startIndex + itemsPerPage)
-    setCurrentItems(formik?.values.attendanceTable.slice(startIndex, endIndex))
-  }, [currentPage])
-  useEffect(() => {
-    setCurrentItems(attendanceData.slice(startIndex, endIndex))
-  }, [startIndex, endIndex])
-  useEffect(() => {
     formik.resetForm()
     dispatch(clearAttendanceData())
   }, [])
+
   useEffect(() => {
     if (selectedAttendanceData?.length > 0) {
       setAttendanceData(selectedAttendanceData)
@@ -60,6 +45,7 @@ const Attendance = ({ masterData }) => {
       setAttendanceData([])
     }
   }, [selectedAttendanceData, selectedStudentsData])
+
   useEffect(() => {
     const fetchData = async () => {
       dispatch(clearAttendanceData())
@@ -81,6 +67,7 @@ const Attendance = ({ masterData }) => {
 
     fetchData()
   }, [className, attendanceDate, userDetails])
+
   useEffect(() => {
     if (attendanceData.length > 0) {
       formik.setFieldValue("attendanceTable", attendanceData)
@@ -90,12 +77,9 @@ const Attendance = ({ masterData }) => {
           value.attendanceStatus
         )
       })
-
-      setTotalPages(Math.ceil(attendanceData.length / itemsPerPage))
-      setCurrentPage(1)
-      setCurrentItems(attendanceData.slice(startIndex, endIndex))
     }
   }, [attendanceData])
+
   useEffect(() => {
     if (selectedAttendance.status == "loading") {
       setLoading(true)
@@ -103,12 +87,11 @@ const Attendance = ({ masterData }) => {
       setLoading(false)
     }
   }, [selectedAttendance])
+
   useEffect(() => {
-    // Listen for real-time updates from the server
     socket.on("attendanceUpdated", () => {
       dispatch(clearAttendanceData());
   
-      // Fetch the latest attendance data
       dispatch(
         getAttendanceDetails({
           schoolId: userDetails?.schoolId,
@@ -118,7 +101,6 @@ const Attendance = ({ masterData }) => {
       );
     });
   
-    // Cleanup on unmount
     return () => socket.off("attendanceUpdated");
   }, [classId, attendanceDate, userDetails, dispatch]);
   
@@ -155,9 +137,7 @@ const Attendance = ({ masterData }) => {
   const handleSubmitClick = () => {
     formik.handleSubmit()
   }
-  const handlePageChange = newPage => {
-    setCurrentPage(newPage)
-  }
+
   const handleSubmit = (values) => {
     const attendanceRecords = values?.attendanceTable?.map((value, index) => {
       return {
@@ -179,6 +159,7 @@ const Attendance = ({ masterData }) => {
         console.error("Error:", err);
       });
   };
+
   const formik = useFormik({
     initialValues: attendanceInitialValues,
     validationSchema: attendanceValidationScheme,
@@ -187,9 +168,7 @@ const Attendance = ({ masterData }) => {
       console.log("onSubmit has fired")
     }
   })
-
-  console.log("the formik values are", formik)
-  console.log("the formik errors are", formik.errors)
+console.log('the formik values are', formik?.values?.attendanceTable)
   return (
     <CircularLoader loading={loading}>
       <FormikProvider value={formik}>
@@ -206,11 +185,6 @@ const Attendance = ({ masterData }) => {
             attendanceData={attendanceData}
             masterData={masterData}
             handleAttendanceStatusChange={handleAttendanceStatusChange}
-            handlePageChange={handlePageChange}
-            currentItems={currentItems}
-            startIndex={startIndex}
-            currentPage={currentPage}
-            totalPages={totalPages}
             formik={formik}
           />
 

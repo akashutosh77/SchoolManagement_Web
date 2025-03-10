@@ -1,92 +1,103 @@
-import { Grid } from "@mui/material"
-import { FieldArray } from "formik"
-import { Fragment } from "react"
+import { useMemo } from "react"
+import MaterialReactTableField from "components/MaterialReactTableField"
 import AutocompleteField from "components/AutoComplete"
 import { InputField } from "components/InputField"
-import PaginationControls from "./paginationControls"
+import { Box } from "@mui/material"
 
 const AttendanceTable = ({
   attendanceData,
   masterData,
   handleAttendanceStatusChange,
-  formik,
-  handlePageChange,
-  currentItems,
-  startIndex,
-  currentPage,
-  totalPages
+  formik
 }) => {
-  return (
-    <>
-      <FieldArray name="attendanceTable">
-        {() => (
-          <Grid container spacing={1}>
-            {currentItems?.map((data, index) => (
-              <Fragment key={data.studentId}>
-                <Grid item xs={4}>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <img
-                      src={data.photoURL}
-                      alt="Student Photo"
-                      style={{
-                        width: 50,
-                        height: 50,
-                        objectFit: "cover",
-                        borderRadius: "50%",
-                        marginRight: 10
-                      }}
-                    />
-                    <div>
-                      <div>
-                        {data.firstName} {data.middleName} {data.lastName}
-                      </div>
-                    </div>
-                  </div>
-                </Grid>
-                <Grid item xs={4}>
-                  <AutocompleteField
-                    // value={{
-                    //   id: data.attendanceStatusId!,
-                    //   label: data.attendanceStatus!,
-                    // }}
-                    onChange={(event, newValue) =>
-                      handleAttendanceStatusChange(
-                        event,
-                        newValue,
-                        data.studentId,
-                        index + startIndex
-                      )
-                    }
-                    size="small"
-                    options={masterData.attendanceStatuses.map(
-                      x => x.attendanceStatus
-                    )}
-                    label="Select Status"
-                    name={`attendanceTable[${index +
-                      startIndex}].attendanceStatus`}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <InputField
-                    size="small"
-                    variant="outlined"
-                    label="Remarks"
-                    name={`attendanceTable[${index + startIndex}].remarks`}
-                  />
-                </Grid>
-              </Fragment>
-            ))}
-          </Grid>
-        )}
-      </FieldArray>
+  const columns = useMemo(() => [
+    {
+      accessorKey: 'student',
+      header: 'Student',
+      Cell: ({ row }) => (
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src={row.original.photoURL}
+            alt="Student Photo"
+            style={{
+              width: 50,
+              height: 50,
+              objectFit: "cover",
+              borderRadius: "50%",
+              marginRight: 10
+            }}
+          />
+          <div>
+            {`${row.original.firstName} ${row.original.middleName || ''} ${row.original.lastName}`}
+          </div>
+        </div>
+      ),
+      size: 300,
+    },
+    {
+      accessorKey: 'attendanceStatus',
+      header: 'Status',
+      Cell: ({ row }) => (
+        <Box sx={{ width: '200px' }}>
+          <AutocompleteField
+            onChange={(event, newValue) =>
+              handleAttendanceStatusChange(
+                event,
+                newValue,
+                row.original.studentId,
+                row.index
+              )
+            }
+            size="small"
+            options={masterData.attendanceStatuses.map(x => x.attendanceStatus)}
+            label="Select Status"
+            name={`attendanceTable[${row.index}].attendanceStatus`}
+            value={formik.values.attendanceTable[row.index]?.attendanceStatus || null}
+          />
+        </Box>
+      ),
+      size: 200,
+    },
+    {
+      accessorKey: 'remarks',
+      header: 'Remarks',
+      Cell: ({ row }) => (
+        <Box sx={{ width: '180px' }}>
+          <InputField
+            size="small"
+            variant="outlined"
+            label="Remarks"
+            name={`attendanceTable[${row.index}].remarks`}
+            value={formik.values.attendanceTable[row.index]?.remarks || ''}
+            onKeyDown={(e) => {
+              // Prevents the keydown event from bubbling up to the table
+              // This stops the table from capturing keyboard events like arrow keys
+              // which would otherwise navigate between cells instead of allowing
+              // normal text input behavior within the field
+              e.stopPropagation();
+            }}
+          />
+        </Box>
+      ),
+    }
+  ], [masterData.attendanceStatuses, handleAttendanceStatusChange, formik.values.attendanceTable]);
 
-      {/* Use PaginationControls component */}
-      <PaginationControls
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-    </>
+  return (
+    <MaterialReactTableField
+      data={attendanceData}
+      columns={columns}
+      enableTopToolbar={true}
+      enableColumnActions={false}
+      enableColumnFilters={true}
+      enablePagination={true}
+      enableSorting={true}
+      enableColumnResizing={false}
+      enableFullScreenToggle={false}
+      initialState={{
+        density: 'compact',
+        pagination: { pageSize: 10, pageIndex: 0 }
+      }}
+    />
   )
 }
 
