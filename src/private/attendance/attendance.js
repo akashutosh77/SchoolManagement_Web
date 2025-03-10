@@ -1,54 +1,57 @@
-import { Button, Divider } from "@mui/material"
-import { CircularLoader } from "components/CircularLoader"
-import { Form, FormikProvider, useFormik } from "formik"
-import { useAuthUserDetailsHook } from "hooks/public/useUserHooks"
-import moment from "moment"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getAttendanceDetails, insertOrUpdateAttendanceDetails } from "store/actions/attendanceActions"
+import { Button, Divider, Box } from "@mui/material";
+import { CircularLoader } from "components/CircularLoader";
+import { Form, FormikProvider, useFormik } from "formik";
+import { useAuthUserDetailsHook } from "hooks/public/useUserHooks";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAttendanceDetails,
+  insertOrUpdateAttendanceDetails,
+} from "store/actions/attendanceActions";
 import {
   clearAttendanceData,
   selectAttendance,
   selectAttendanceData,
-  selectStudentData
-} from "../../store/slices/attendenceSlice"
-import AttendanceHeader from "./attendanceHeader"
-import { attendanceInitialValues } from "./attendanceInitialValues"
-import AttendanceTable from "./attendanceTable"
-import { attendanceValidationScheme } from "./attendanceValidationSchema"
+  selectStudentData,
+} from "../../store/slices/attendenceSlice";
+import AttendanceHeader from "./attendanceHeader";
+import { attendanceInitialValues } from "./attendanceInitialValues";
+import AttendanceTable from "./attendanceTable";
+import { attendanceValidationScheme } from "./attendanceValidationSchema";
 import io from "socket.io-client";
 
 const Attendance = ({ masterData }) => {
   const socket = io(process.env.REACT_APP_SOCKET_URL);
-  const selectedAttendance = useSelector(selectAttendance)
-  const selectedAttendanceData = useSelector(selectAttendanceData)
-  const selectedStudentsData = useSelector(selectStudentData)
-  const [loading, setLoading] = useState(true)
-  const [attendanceData, setAttendanceData] = useState([])
-  const [className, setClassName] = useState("")
-  const [attendanceDate, setAttendanceDate] = useState(new Date())
-  const [classId, setClassId] = useState(0)
-  const dispatch = useDispatch()
-  const userDetails = useAuthUserDetailsHook()
+  const selectedAttendance = useSelector(selectAttendance);
+  const selectedAttendanceData = useSelector(selectAttendanceData);
+  const selectedStudentsData = useSelector(selectStudentData);
+  const [loading, setLoading] = useState(true);
+  const [attendanceData, setAttendanceData] = useState([]);
+  const [className, setClassName] = useState("");
+  const [attendanceDate, setAttendanceDate] = useState(new Date());
+  const [classId, setClassId] = useState(0);
+  const dispatch = useDispatch();
+  const userDetails = useAuthUserDetailsHook();
 
   useEffect(() => {
-    formik.resetForm()
-    dispatch(clearAttendanceData())
-  }, [])
+    formik.resetForm();
+    dispatch(clearAttendanceData());
+  }, []);
 
   useEffect(() => {
     if (selectedAttendanceData?.length > 0) {
-      setAttendanceData(selectedAttendanceData)
+      setAttendanceData(selectedAttendanceData);
     } else if (selectedStudentsData?.length > 0) {
-      setAttendanceData(selectedStudentsData)
+      setAttendanceData(selectedStudentsData);
     } else {
-      setAttendanceData([])
+      setAttendanceData([]);
     }
-  }, [selectedAttendanceData, selectedStudentsData])
+  }, [selectedAttendanceData, selectedStudentsData]);
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(clearAttendanceData())
+      dispatch(clearAttendanceData());
       if (className && attendanceDate && userDetails) {
         try {
           await dispatch(
@@ -57,41 +60,41 @@ const Attendance = ({ masterData }) => {
               classId: classId,
               attendanceDate: moment(new Date(attendanceDate)).format(
                 "DD/MM/YYYY"
-              )
+              ),
             })
-          )
+          );
         } finally {
         }
       }
-    }
+    };
 
-    fetchData()
-  }, [className, attendanceDate, userDetails])
+    fetchData();
+  }, [className, attendanceDate, userDetails]);
 
   useEffect(() => {
     if (attendanceData.length > 0) {
-      formik.setFieldValue("attendanceTable", attendanceData)
+      formik.setFieldValue("attendanceTable", attendanceData);
       attendanceData.map((value, index) => {
         formik.setFieldValue(
           `attendanceTable[${index}].attendanceStatus`,
           value.attendanceStatus
-        )
-      })
+        );
+      });
     }
-  }, [attendanceData])
+  }, [attendanceData]);
 
   useEffect(() => {
     if (selectedAttendance.status == "loading") {
-      setLoading(true)
+      setLoading(true);
     } else {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [selectedAttendance])
+  }, [selectedAttendance]);
 
   useEffect(() => {
     socket.on("attendanceUpdated", () => {
       dispatch(clearAttendanceData());
-  
+
       dispatch(
         getAttendanceDetails({
           schoolId: userDetails?.schoolId,
@@ -100,43 +103,46 @@ const Attendance = ({ masterData }) => {
         })
       );
     });
-  
+
     return () => socket.off("attendanceUpdated");
   }, [classId, attendanceDate, userDetails, dispatch]);
-  
+
   const handleAttendanceStatusChange = (event, newValue, studentId, index) => {
-    formik.handleChange(event)
-    formik.setFieldValue(`attendanceTable[${index}].attendanceStatus`, newValue)
-    formik.setFieldValue(`attendanceTable[${index}].studentId`, studentId)
+    formik.handleChange(event);
+    formik.setFieldValue(
+      `attendanceTable[${index}].attendanceStatus`,
+      newValue
+    );
+    formik.setFieldValue(`attendanceTable[${index}].studentId`, studentId);
     formik.setFieldValue(
       `attendanceTable[${index}].attendanceStatusId`,
-      masterData?.attendanceStatuses.find(x => x.attendanceStatus == newValue)
+      masterData?.attendanceStatuses.find((x) => x.attendanceStatus == newValue)
         ?.attendanceStatusId
-    )
-  }
+    );
+  };
 
   const handleClassOnChange = (event, newValue) => {
-    formik.resetForm()
-    formik.handleChange(event)
-    formik.setFieldValue("class", newValue)
+    formik.resetForm();
+    formik.handleChange(event);
+    formik.setFieldValue("class", newValue);
     formik.setFieldValue(
       "classId",
-      masterData?.classesData.find(x => x.className == newValue)?.classId
-    )
-    setClassName(newValue)
+      masterData?.classesData.find((x) => x.className == newValue)?.classId
+    );
+    setClassName(newValue);
     setClassId(
-      masterData?.classesData.find(x => x.className == newValue)?.classId
-    )
-  }
+      masterData?.classesData.find((x) => x.className == newValue)?.classId
+    );
+  };
 
   const handleDateOnChange = (value, context) => {
-    formik.setFieldValue("attendanceDate", value)
-    setAttendanceDate(value)
-  }
+    formik.setFieldValue("attendanceDate", value);
+    setAttendanceDate(value);
+  };
 
   const handleSubmitClick = () => {
-    formik.handleSubmit()
-  }
+    formik.handleSubmit();
+  };
 
   const handleSubmit = (values) => {
     const attendanceRecords = values?.attendanceTable?.map((value, index) => {
@@ -146,10 +152,10 @@ const Attendance = ({ masterData }) => {
         studentId: value?.studentId,
         attendanceDate: attendanceDate,
         attendanceStatusId: value?.attendanceStatusId,
-        remarks: value?.remarks
+        remarks: value?.remarks,
       };
     });
-    console.log('attendanceRecords', attendanceRecords)
+    console.log("attendanceRecords", attendanceRecords);
     dispatch(insertOrUpdateAttendanceDetails(attendanceRecords))
       .unwrap()
       .then((res) => {
@@ -163,12 +169,12 @@ const Attendance = ({ masterData }) => {
   const formik = useFormik({
     initialValues: attendanceInitialValues,
     validationSchema: attendanceValidationScheme,
-    onSubmit: values => {
-      handleSubmit(values)
-      console.log("onSubmit has fired")
-    }
-  })
-console.log('the formik values are', formik?.values?.attendanceTable)
+    onSubmit: (values) => {
+      handleSubmit(values);
+      console.log("onSubmit has fired");
+    },
+  });
+  console.log("the formik values are", formik?.values?.attendanceTable);
   return (
     <CircularLoader loading={loading}>
       <FormikProvider value={formik}>
@@ -188,13 +194,15 @@ console.log('the formik values are', formik?.values?.attendanceTable)
             formik={formik}
           />
 
-          <Button variant="contained" onClick={handleSubmitClick}>
-            Submit
-          </Button>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+            <Button variant="contained" onClick={handleSubmitClick}>
+              Submit
+            </Button>
+          </Box>
         </Form>
       </FormikProvider>
     </CircularLoader>
-  )
-}
+  );
+};
 
-export default Attendance
+export default Attendance;

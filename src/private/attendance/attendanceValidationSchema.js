@@ -6,11 +6,11 @@ export const attendanceValidationScheme = yup.object().shape({
       attendanceStatus: yup
         .string()
         .nullable()
-        .required("Attendance Status cannot be blank"),
+        .required("Field cannot be blank"),
       remarks: yup
         .string()
         .nullable()
-        .required("Remarks cannot be blank")
+        .required("Field cannot be blank")
     })
   )
 })
