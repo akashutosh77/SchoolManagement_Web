@@ -1,14 +1,15 @@
-import { Card, Container, Typography } from "@mui/material"
-import useMasterDataHook from "hooks/private/useMasterDataHook"
-import useURLAfterPrivateHook from "hooks/private/useURLAfterPrivateHook"
-import React from "react"
-import { useAuthUserDetailsHook } from "../hooks/public/useUserHooks"
-import { ROLES } from "../utils"
-import Teachers from "./teachers/teachers"
+import { Card, Container, Typography } from "@mui/material";
+import useMasterDataHook from "hooks/private/useMasterDataHook";
+import useURLAfterPrivateHook from "hooks/private/useURLAfterPrivateHook";
+import React from "react";
+import { useAuthUserDetailsHook } from "../hooks/public/useUserHooks";
+import { ROLES } from "../utils";
+import TeachersRole from "./roles/teachersRole/teachersRole";
+import AdministratorRole from "./roles/administratorRole/administratorRole";
 const Private = () => {
-  const urlAfterPrivate = useURLAfterPrivateHook()
-  const userDetails = useAuthUserDetailsHook()
-  const masterData = useMasterDataHook()
+  const urlAfterPrivate = useURLAfterPrivateHook();
+  const userDetails = useAuthUserDetailsHook();
+  const masterData = useMasterDataHook();
   return (
     <Container maxWidth="md">
       <Card sx={{ minHeight: 500, borderRadius: 2, padding: 5 }}>
@@ -17,7 +18,14 @@ const Private = () => {
         )}
 
         {userDetails?.roleName == ROLES.Teacher && (
-          <Teachers
+          <TeachersRole
+            urlAfterPrivate={urlAfterPrivate}
+            userDetails={userDetails}
+            masterData={masterData}
+          />
+        )}
+        {userDetails?.roleName == ROLES.Administrator && (
+          <AdministratorRole
             urlAfterPrivate={urlAfterPrivate}
             userDetails={userDetails}
             masterData={masterData}
@@ -25,6 +33,6 @@ const Private = () => {
         )}
       </Card>
     </Container>
-  )
-}
-export default Private
+  );
+};
+export default Private;

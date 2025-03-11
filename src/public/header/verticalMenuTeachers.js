@@ -3,14 +3,14 @@ import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
 import * as React from "react"
-import { attendanceByTeacher } from "utils"
+import { menuAttendance } from "utils"
 
 const VerticalMenuTeachers = ({ handleMenuClick }) => {
   return (
     <List>
       <ListItem key={"Attendance"} disablePadding>
         <ListItemButton
-          onClick={() => handleMenuClick(attendanceByTeacher)}
+          onClick={() => handleMenuClick(menuAttendance)}
           sx={{ textAlign: "center" }}
         >
           <ListItemText primary={"Attendance"} />

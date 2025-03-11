@@ -1,23 +1,23 @@
-import { Home } from "public/home/home"
-import React from "react"
-import { Route, Routes } from "react-router-dom"
-import { GuestRoute } from "./guestRoute"
-import { MemberRoute } from "./memberRoute"
+import { Home } from "public/home/home";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { GuestRoute } from "./guestRoute";
+import { MemberRoute } from "./memberRoute";
 // import About from '../pages/guest/About';
 // import Contact from '../pages/guest/Contact';
 // import Login from '../pages/guest/Login';
-import { Dashboard } from "../private/dashboard"
-import Signup from "../public/login/signup"
+import { Dashboard } from "../private/dashboard";
+import Signup from "../public/login/signup";
 // import Profile from '../pages/member/Profile';
 // import Settings from '../pages/member/Settings';
-import { urlOfTeacherAttendance } from "utils"
-import { useIsUserLoggedInHook } from "../hooks/public/useUserHooks"
-import Private from "../private/private"
-import ForgotPassword from "../public/login/forgotPassword"
-import Login from "../public/login/login"
+import { urlAttendance, urlBulkUploadStudents } from "utils";
+import { useIsUserLoggedInHook } from "../hooks/public/useUserHooks";
+import Private from "../private/private";
+import ForgotPassword from "../public/login/forgotPassword";
+import Login from "../public/login/login";
 
 const AppRoutes = () => {
-  const isUserLoggedIn = useIsUserLoggedInHook()
+  const isUserLoggedIn = useIsUserLoggedInHook();
   return (
     <Routes>
       <Route path="/" element={<GuestRoute component={Home} />} />
@@ -36,7 +36,13 @@ const AppRoutes = () => {
         }
       />
       <Route
-        path={`/private/${urlOfTeacherAttendance}`}
+        path={`/private/${urlAttendance}`}
+        element={
+          <MemberRoute component={Private} isUserLoggedIn={isUserLoggedIn} />
+        }
+      />
+      <Route
+        path={`/private/${urlBulkUploadStudents}`}
         element={
           <MemberRoute component={Private} isUserLoggedIn={isUserLoggedIn} />
         }
@@ -50,7 +56,7 @@ const AppRoutes = () => {
       {/* <Route path="/profile" element={<MemberRoute component={Profile} />} />
         <Route path="/settings" element={<MemberRoute component={Settings} />} /> */}
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;

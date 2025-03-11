@@ -9,6 +9,7 @@ import ListItemText from "@mui/material/ListItemText"
 import * as React from "react"
 import { ROLES } from "utils"
 import VerticalMenuTeachers from "./verticalMenuTeachers"
+import VerticalMenuAdministrators from "./verticalMenuAdministrators"
 
 const VerticalMenuItems = ({
   handleMenuClick,
@@ -23,6 +24,12 @@ const VerticalMenuItems = ({
         MUI
       </Typography>
       <Divider />
+      {isUserLoggedIn && userDetails?.roleName == ROLES.Administrator && (
+        <VerticalMenuAdministrators
+          handleMenuClick={handleMenuClick}
+          openMenu={openMenu}
+        ></VerticalMenuAdministrators>
+      )}
       {isUserLoggedIn && userDetails?.roleName == ROLES.Teacher && (
         <VerticalMenuTeachers
           handleMenuClick={handleMenuClick}

@@ -14,7 +14,7 @@ import {
   selectAttendance,
   selectAttendanceData,
   selectStudentData,
-} from "../../store/slices/attendenceSlice";
+} from "../../../store/slices/attendenceSlice";
 import AttendanceHeader from "./attendanceHeader";
 import { attendanceInitialValues } from "./attendanceInitialValues";
 import AttendanceTable from "./attendanceTable";

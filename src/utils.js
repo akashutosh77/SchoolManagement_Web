@@ -1,3 +1,8 @@
+export const urlAttendance = "attendance"
+export const menuAttendance = "menuAttendance"
+export const urlBulkUploadStudents = "bulkUploadStudents"
+export const menuBulkUploadStudents = "menuBulkUploadStudents"
+
 export const ROLES = {
   Super: "Super",
   Administrator: "Administrator",
@@ -6,9 +11,6 @@ export const ROLES = {
   Parent: "Parent",
   Staff: "Staff"
 }
-
-export const urlOfTeacherAttendance = "attendance"
-export const attendanceByTeacher = "attendanceByTeacher"
 
 /**
  * Convert a Date object to a string in the format "DD/MM/YYYY"

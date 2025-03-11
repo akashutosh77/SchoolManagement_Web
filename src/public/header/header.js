@@ -7,7 +7,7 @@ import {
   import { useState } from "react"
   import { useDispatch, useSelector } from "react-redux"
   import { useNavigate } from "react-router-dom"
-  import { attendanceByTeacher, urlOfTeacherAttendance } from "utils"
+  import { menuAttendance, urlAttendance, menuBulkUploadStudents, urlBulkUploadStudents } from "utils"
   import { clearUser, selectUser } from "../../store/slices/authSlice"
   
   const Header = () => {
@@ -40,8 +40,12 @@ import {
     }
     const handleMenuClick = menu => {
       setOpenMenu({ ...openMenu, [menu]: !openMenu[menu] })
-      if (menu == attendanceByTeacher) {
-        navigate(`private/${urlOfTeacherAttendance}`)
+      if (menu == menuAttendance) {
+        navigate(`private/${urlAttendance}`)
+        setMobileOpen(prevState => !prevState)
+      }
+      if (menu == menuBulkUploadStudents) {
+        navigate(`private/${urlBulkUploadStudents}`)
         setMobileOpen(prevState => !prevState)
       }
     }
