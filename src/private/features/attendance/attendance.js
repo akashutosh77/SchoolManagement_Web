@@ -16,9 +16,8 @@ import {
   selectStudentData,
 } from "../../../store/slices/attendenceSlice";
 import AttendanceHeader from "./attendanceHeader";
-import { attendanceInitialValues } from "./attendanceInitialValues";
 import AttendanceTable from "./attendanceTable";
-import { attendanceValidationScheme } from "./attendanceValidationSchema";
+import { validationSchema, initialValues } from "./formValues";
 import io from "socket.io-client";
 
 const Attendance = ({ masterData }) => {
@@ -167,14 +166,12 @@ const Attendance = ({ masterData }) => {
   };
 
   const formik = useFormik({
-    initialValues: attendanceInitialValues,
-    validationSchema: attendanceValidationScheme,
+    initialValues: initialValues,
+    validationSchema: validationSchema,
     onSubmit: (values) => {
       handleSubmit(values);
-      console.log("onSubmit has fired");
     },
   });
-  console.log("the formik values are", formik?.values?.attendanceTable);
   return (
     <CircularLoader loading={loading}>
       <FormikProvider value={formik}>

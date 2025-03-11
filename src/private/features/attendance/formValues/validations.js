@@ -1,6 +1,6 @@
 import * as yup from "yup"
 
-export const attendanceValidationScheme = yup.object().shape({
+export const validationSchema = yup.object().shape({
   attendanceTable: yup.array().of(
     yup.object().shape({
       attendanceStatus: yup

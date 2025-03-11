@@ -1,6 +1,6 @@
 import moment from "moment"
 
-export const attendanceInitialValues = {
+export const initialValues = {
   class: "",
   attendanceDate: moment(new Date()).format("DD-MM-YYYY"),
   classId: 0,
