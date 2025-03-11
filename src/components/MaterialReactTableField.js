@@ -8,6 +8,7 @@ import { MaterialReactTable } from "material-react-table"
 import PropTypes from 'prop-types';
 import { useState, useCallback, useMemo } from 'react';
 import { Box, CircularProgress } from '@mui/material';
+import NoData from '../noData';
 
 /**
  * @component MaterialReactTableField
@@ -103,20 +104,20 @@ const MaterialReactTableField = ({
    * Default empty state component that shows loading spinner or no data message
    */
   const DefaultEmptyState = () => (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '200px',
-      }}
-    >
-      {isLoading ? (
+    isLoading ? (
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '200px',
+        }}
+      >
         <CircularProgress />
-      ) : (
-        <span>No records found</span>
-      )}
-    </Box>
+      </Box>
+    ) : (
+      <NoData />
+    )
   );
 
   /**

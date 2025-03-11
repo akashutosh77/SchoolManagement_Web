@@ -6,6 +6,7 @@ import { Box } from "@mui/material"
 
 const AttendanceTable = ({
   attendanceData,
+  isLoading,
   masterData,
   handleAttendanceStatusChange,
   formik
@@ -86,6 +87,7 @@ const AttendanceTable = ({
     <MaterialReactTableField
       data={attendanceData}
       columns={columns}
+      isLoading={isLoading}
       enableTopToolbar={true}
       enableColumnActions={false}
       enableColumnFilters={true}

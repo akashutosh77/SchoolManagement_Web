@@ -188,6 +188,7 @@ const Attendance = ({ masterData }) => {
           <Divider sx={{ mt: 1, mb: 2 }}></Divider>
 
           <AttendanceTable
+            isLoading={loading}
             attendanceData={attendanceData}
             masterData={masterData}
             handleAttendanceStatusChange={handleAttendanceStatusChange}
