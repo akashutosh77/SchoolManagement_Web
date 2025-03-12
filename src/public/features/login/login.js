@@ -1,13 +1,12 @@
 import React, { useEffect } from "react"
 import { Container, Box, Typography, Button, Link, Grid } from "@mui/material"
 import { Form, useFormik, FormikProvider } from "formik"
-import { InputField } from "../../components/InputField"
+import { InputField } from "components/InputField"
 import { useNavigate } from "react-router-dom"
-import { loginValidationSchema } from "./validations"
-import { loginInitialValues } from "./initialValues"
-import { useAuthHandlerHook } from "../../hooks/public/useAuthHandlerHook"
-import ConfirmationDialog from "../../components/ConfirmationDialog"
-import { useIsUserLoggedInHook } from "../../hooks/public/useUserHooks"
+import { loginInitialValues, loginValidationSchema } from "public/features/login/formValues"
+import { useAuthHandlerHook } from "hooks/public/useAuthHandlerHook"
+import ConfirmationDialog from "components/ConfirmationDialog"
+import { useIsUserLoggedInHook } from "hooks/public/useUserHooks"
 
 const Login = () => {
   const navigate = useNavigate()

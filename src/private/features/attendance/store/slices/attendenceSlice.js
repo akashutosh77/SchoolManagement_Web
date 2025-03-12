@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAttendanceDetails, insertOrUpdateAttendanceDetails } from "../actions/attendanceActions"
+import { getAttendanceDetails, insertOrUpdateAttendanceDetails } from "private/features/attendance/store/actions/attendanceActions"
 
 const initialState = {
   attendanceData: [],

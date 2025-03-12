@@ -6,9 +6,9 @@ import DrawerAppBar from "public/header/drawerAppBar"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { logoutUser } from "store/actions/authActions"
+import { logoutUser } from "public/features/login/store/actions/authActions"
 import { menuAttendance, menuBulkUploadStudents, urlAttendance, urlBulkUploadStudents } from "utils"
-import { selectUser } from "../../store/slices/authSlice"
+import { selectUser } from "../features/login/store/slices/authSlice"
   
   const Header = () => {
     const userDetails = useAuthUserDetailsHook()

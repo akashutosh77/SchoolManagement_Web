@@ -1,21 +1,22 @@
-import React from "react"
-import { Formik, Form } from "formik"
-import axios from "axios"
-import { InputField } from "../../components/InputField"
-import { CustomButton } from "../../components/CustomButton"
-import { signupValidationSchema } from "./validations"
-import { signupInitialValues } from "./initialValues"
-import { hashPassword } from "../../services/loginService"
+import axios from "axios";
+import { CustomButton } from "components/CustomButton";
+import { InputField } from "components/InputField";
+import { Form, Formik } from "formik";
+import {
+  signupInitialValues,
+  signupValidationSchema,
+} from "public/features/login/formValues";
+import { hashPassword } from "services/loginService";
 
 const EmailPasswordSignup = () => {
-  const handleSubmit = async values => {
+  const handleSubmit = async (values) => {
     try {
-      const hashedPassword = await hashPassword(values.password)
-      await axios.post("/api/signup", { ...values, password: hashedPassword })
+      const hashedPassword = await hashPassword(values.password);
+      await axios.post("/api/signup", { ...values, password: hashedPassword });
     } catch (error) {
-      console.error("Error signing up:", error)
+      console.error("Error signing up:", error);
     }
-  }
+  };
 
   return (
     <Formik
@@ -33,7 +34,7 @@ const EmailPasswordSignup = () => {
           variant="contained"
           fullWidth
           onClick={() => {
-            alert("hellow")
+            alert("hellow");
           }}
         >
           {" "}
@@ -41,7 +42,7 @@ const EmailPasswordSignup = () => {
         </CustomButton>
       </Form>
     </Formik>
-  )
-}
+  );
+};
 
-export default EmailPasswordSignup
+export default EmailPasswordSignup;

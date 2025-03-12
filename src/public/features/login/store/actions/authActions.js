@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
-import { clearAttendanceData } from "store/slices/attendenceSlice"
-import { clearUser } from "store/slices/authSlice"
+import { clearAttendanceData } from "private/features/attendance/store/slices/attendenceSlice"
+import { clearUser } from "public/features/login/store/slices/authSlice"
 import { clearMasterData } from "store/slices/masterDataSlice"
 
 const base_url = process.env.REACT_APP_BASE_URL

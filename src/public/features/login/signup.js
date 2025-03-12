@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Container, Box, Typography, Button } from "@mui/material"
 import GoogleSignup from "./googleSignup"
 import EmailPasswordSignup from "./emailPasswordSignup"
-import { selectUser } from "../../store/slices/authSlice"
+import { selectUser } from "public/features/login/store/slices/authSlice"
 import { useSelector } from "react-redux"
 
 const Signup = () => {

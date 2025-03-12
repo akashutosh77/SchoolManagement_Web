@@ -2,8 +2,8 @@ import { useGoogleLogin } from "@react-oauth/google"
 import CryptoJS from "crypto-js"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { loginUser, loginUserWithGoogle, logoutUser } from "../../store/actions/authActions"
-import { clearUser } from "../../store/slices/authSlice"
+import { loginUser, loginUserWithGoogle, logoutUser } from "../../public/features/login/store/actions/authActions"
+import { clearUser } from "../../public/features/login/store/slices/authSlice"
 import { useState } from "react"
 
 export const useAuthHandlerHook = () => {

@@ -1,10 +1,9 @@
 import React from "react"
 import { Container, Box, Typography, Button } from "@mui/material"
 import { Formik, Form } from "formik"
-import { InputField } from "../../components/InputField"
-import { forgotPassword } from "../../services/loginService"
-import { forgotPasswordValidationSchema } from "./validations"
-import { forgotPasswordInitialValues } from "./initialValues"
+import { InputField } from "components/InputField"
+import { forgotPassword } from "services/loginService"
+import { forgotPasswordInitialValues, forgotPasswordValidationSchema } from "public/features/login/formValues"
 
 const ForgotPassword = () => {
   const handleForgotPassword = async values => {

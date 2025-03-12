@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
-import attendanceReducer from "./slices/attendenceSlice"
-import authReducer from "./slices/authSlice"
+import attendanceReducer from "private/features/attendance/store/slices/attendenceSlice"
+import authReducer from "public/features/login/store/slices/authSlice"
 import masterDataReducer from "./slices/masterDataSlice"
 
 const store = configureStore({

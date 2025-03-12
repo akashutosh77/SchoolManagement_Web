@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, setUser } from "../../store/slices/authSlice";
+import { selectUser, setUser } from "../../public/features/login/store/slices/authSlice";
 
 export const useIsUserLoggedInHook = () => {
   let isUserLoggedIn = false;

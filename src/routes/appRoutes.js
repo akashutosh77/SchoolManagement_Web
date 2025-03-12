@@ -7,14 +7,14 @@ import { MemberRoute } from "./memberRoute";
 // import Contact from '../pages/guest/Contact';
 // import Login from '../pages/guest/Login';
 import { Dashboard } from "../private/dashboard";
-import Signup from "../public/login/signup";
+import Signup from "public/features/login/signup";
 // import Profile from '../pages/member/Profile';
 // import Settings from '../pages/member/Settings';
 import { urlAttendance, urlBulkUploadStudents } from "utils";
 import { useIsUserLoggedInHook } from "../hooks/public/useUserHooks";
 import Private from "../private/private";
-import ForgotPassword from "../public/login/forgotPassword";
-import Login from "../public/login/login";
+import ForgotPassword from "public/features/login/forgotPassword";
+import Login from "public/features/login/login";
 
 const AppRoutes = () => {
   const isUserLoggedIn = useIsUserLoggedInHook();
