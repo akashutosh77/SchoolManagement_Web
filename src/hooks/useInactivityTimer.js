@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { clearUser } from '../store/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { logoutUser } from 'store/actions/authActions';
 
 const INACTIVITY_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
 
@@ -17,7 +17,7 @@ export const useInactivityTimer = () => {
 
     timeoutRef.current = setTimeout(() => {
       // Logout user after inactivity
-      dispatch(clearUser());
+      dispatch(logoutUser());
       navigate('/login');
     }, INACTIVITY_TIMEOUT);
   };

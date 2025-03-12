@@ -1,14 +1,14 @@
 import {
-    useAuthUserDetailsHook,
-    useIsUserLoggedInHook
-  } from "hooks/public/useUserHooks"
-  import DrawerAppBar from "public/header/drawerAppBar"
-  import * as React from "react"
-  import { useState } from "react"
-  import { useDispatch, useSelector } from "react-redux"
-  import { useNavigate } from "react-router-dom"
-  import { menuAttendance, urlAttendance, menuBulkUploadStudents, urlBulkUploadStudents } from "utils"
-  import { clearUser, selectUser } from "../../store/slices/authSlice"
+  useAuthUserDetailsHook,
+  useIsUserLoggedInHook
+} from "hooks/public/useUserHooks"
+import DrawerAppBar from "public/header/drawerAppBar"
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { logoutUser } from "store/actions/authActions"
+import { menuAttendance, menuBulkUploadStudents, urlAttendance, urlBulkUploadStudents } from "utils"
+import { selectUser } from "../../store/slices/authSlice"
   
   const Header = () => {
     const userDetails = useAuthUserDetailsHook()
@@ -32,7 +32,7 @@ import {
       }
     }
     const handleNavItemsBeforeLogoutClick = () => {
-      dispatch(clearUser())
+      dispatch(logoutUser())
       navigate("/")
     }
     const handleSchoolNameClick = () => {

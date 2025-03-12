@@ -2,7 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google"
 import CryptoJS from "crypto-js"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { loginUser, loginUserWithGoogle } from "../../store/actions/authActions"
+import { loginUser, loginUserWithGoogle, logoutUser } from "../../store/actions/authActions"
 import { clearUser } from "../../store/slices/authSlice"
 import { useState } from "react"
 
@@ -38,14 +38,14 @@ export const useAuthHandlerHook = () => {
   })
 
   const handleGoogleLogin = () => {
-    dispatch(clearUser())
+    dispatch(logoutUser())
     googleLogin()
   }
 
   const handleLogin = async values => {
     try {
       const hashedPassword = hashPassword(values.password, secretKey)
-      dispatch(clearUser())
+      dispatch(logoutUser())
       dispatch(
         loginUser({ email: values.email, password: hashedPassword })
       ).then(result => {

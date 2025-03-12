@@ -1,5 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
+import { clearAttendanceData } from "store/slices/attendenceSlice"
+import { clearUser } from "store/slices/authSlice"
+import { clearMasterData } from "store/slices/masterDataSlice"
 
 const base_url = process.env.REACT_APP_BASE_URL
 
@@ -85,3 +88,13 @@ export const loginUserWithGoogle = createAsyncThunk(
     }
   }
 )
+
+// Create logout thunk action
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { dispatch }) => {
+    dispatch(clearUser());
+    dispatch(clearMasterData());
+    dispatch(clearAttendanceData());
+  }
+);
