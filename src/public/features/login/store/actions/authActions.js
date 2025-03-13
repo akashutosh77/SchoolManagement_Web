@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 import { clearAttendanceData } from "private/features/attendance/store/slices/attendenceSlice"
+import { clearUploadData } from "private/features/studentBulkUpload/store/slices/studentBulkUploadSlice"
 import { clearUser } from "public/features/login/store/slices/authSlice"
 import { clearMasterData } from "store/slices/masterDataSlice"
 
@@ -96,5 +97,6 @@ export const logoutUser = createAsyncThunk(
     dispatch(clearUser());
     dispatch(clearMasterData());
     dispatch(clearAttendanceData());
+    dispatch(clearUploadData())
   }
 );

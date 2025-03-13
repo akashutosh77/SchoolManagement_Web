@@ -1,11 +1,10 @@
 import { Card, Container, Typography } from "@mui/material";
 import useMasterDataHook from "hooks/private/useMasterDataHook";
 import useURLAfterPrivateHook from "hooks/private/useURLAfterPrivateHook";
-import React from "react";
 import { useAuthUserDetailsHook } from "../hooks/public/useUserHooks";
 import { ROLES } from "../utils";
-import TeachersRole from "./roles/teachersRole/teachersRole";
 import AdministratorRole from "./roles/administratorRole/administratorRole";
+import TeachersRole from "./roles/teachersRole/teachersRole";
 const Private = () => {
   const urlAfterPrivate = useURLAfterPrivateHook();
   const userDetails = useAuthUserDetailsHook();
