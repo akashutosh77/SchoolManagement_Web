@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import * as XLSX from 'xlsx';
-import { EXCEL_TO_DB_MAPPING, validateExcelData } from '../../columnMapping';
-import { mapExcelToDbFormat } from './utils';
+import { mapExcelToDbFormat, EXCEL_TO_DB_MAPPING, validateExcelData } from './utils';
 
 const base_url = process.env.REACT_APP_BASE_URL;
 
