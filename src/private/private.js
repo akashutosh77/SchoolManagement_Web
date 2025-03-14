@@ -5,25 +5,27 @@ import { useAuthUserDetailsHook } from "../hooks/public/useUserHooks";
 import { ROLES } from "../utils";
 import AdministratorRole from "./roles/administratorRole/administratorRole";
 import TeachersRole from "./roles/teachersRole/teachersRole";
+
 const Private = () => {
   const urlAfterPrivate = useURLAfterPrivateHook();
   const userDetails = useAuthUserDetailsHook();
   const masterData = useMasterDataHook();
+  
   return (
     <Container maxWidth="md">
       <Card sx={{ minHeight: 500, borderRadius: 2, padding: 5 }}>
-        {userDetails?.roleName == ROLES.Super && (
+        {userDetails?.roleName === ROLES.Super && (
           <Typography>Welcome: {userDetails?.name}</Typography>
         )}
 
-        {userDetails?.roleName == ROLES.Teacher && (
+        {userDetails?.roleName === ROLES.Teacher && (
           <TeachersRole
             urlAfterPrivate={urlAfterPrivate}
             userDetails={userDetails}
             masterData={masterData}
           />
         )}
-        {userDetails?.roleName == ROLES.Administrator && (
+        {userDetails?.roleName === ROLES.Administrator && (
           <AdministratorRole
             urlAfterPrivate={urlAfterPrivate}
             userDetails={userDetails}
@@ -34,4 +36,5 @@ const Private = () => {
     </Container>
   );
 };
+
 export default Private;

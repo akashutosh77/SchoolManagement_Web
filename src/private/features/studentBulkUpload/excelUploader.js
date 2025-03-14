@@ -5,15 +5,19 @@ import {
   Box, 
   Typography, 
   Alert, 
-  Grid2, 
+  Grid, 
   Paper,
   Divider,
   IconButton,
-  Tooltip
+  Tooltip,
+  List,
+  ListItem,
+  ListItemText
 } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import DownloadIcon from '@mui/icons-material/Download';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Form, FormikProvider } from 'formik';
 import ConfirmationDialog from '../../../components/ConfirmationDialog';
 
@@ -25,12 +29,52 @@ const ExcelUploader = ({
   onFileChange,
   onCloseDialog
 }) => {
+  const renderError = () => {
+    if (!error) return null;
+
+    if (error.errors && Array.isArray(error.errors)) {
+      return (
+        <Box sx={{ mt: 2 }}>
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error.message}
+          </Alert>
+          <Paper sx={{ p: 2, bgcolor: 'error.light' }}>
+            <Typography variant="subtitle2" color="error" gutterBottom>
+              Validation Errors:
+            </Typography>
+            <List dense>
+              {error.errors.map((err, index) => (
+                <ListItem key={index}>
+                  <ListItemText 
+                    primary={err}
+                    sx={{ 
+                      '& .MuiListItemText-primary': { 
+                        color: 'error.main',
+                        fontSize: '0.875rem'
+                      }
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </Box>
+      );
+    }
+
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        {error.message || 'An error occurred while uploading the file'}
+      </Alert>
+    );
+  };
+
   return (
     <Box sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        <Grid2 container spacing={3}>
+        <Grid container spacing={3}>
           {/* Header */}
-          <Grid2 xs={12} sx={{ textAlign: "center", mb: 1 }}>
+          <Grid item xs={12} sx={{ textAlign: "center", mb: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
               <Typography variant="h5" component="h1" sx={{ fontWeight: 600 }}>
                 Student Bulk Upload
@@ -41,32 +85,20 @@ const ExcelUploader = ({
                 </IconButton>
               </Tooltip>
             </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1, ml: 4 }}>
-              Upload student details in bulk using our Excel template
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              Upload student details in bulk using our Excel template (.xlsx or .xls)
             </Typography>
-          </Grid2>
+          </Grid>
 
-          <Grid2 xs={12}>
+          <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
-          </Grid2>
+          </Grid>
 
-          {/* Error Alert */}
-          {error && (
-            <Grid2 xs={12}>
-              <Alert 
-                severity="error" 
-                sx={{ 
-                  width: '100%',
-                  '& .MuiAlert-message': { width: '100%' }
-                }}
-              >
-                {error}
-              </Alert>
-            </Grid2>
-          )}
+          {/* Error Display */}
+          {renderError()}
 
           {/* Download Template Section */}
-          <Grid2 xs={12}>
+          <Grid item xs={12}>
             <Box sx={{ 
               p: 3, 
               bgcolor: 'grey.50', 
@@ -85,10 +117,10 @@ const ExcelUploader = ({
                 Download Template
               </Button>
             </Box>
-          </Grid2>
+          </Grid>
 
           {/* Upload Form */}
-          <Grid2 xs={12}>
+          <Grid item xs={12}>
             <Box sx={{ 
               p: 3, 
               bgcolor: 'grey.50', 
@@ -100,8 +132,8 @@ const ExcelUploader = ({
               </Typography>
               <FormikProvider value={formik}>
                 <Form>
-                  <Grid2 container spacing={2} justifyContent="center">
-                    <Grid2 xs={12}>
+                  <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12}>
                       <input
                         id="file"
                         name="file"
@@ -118,6 +150,7 @@ const ExcelUploader = ({
                           component="span"
                           startIcon={uploadStatus === 'loading' ? <CircularProgress size={20} /> : <CloudUploadIcon />}
                           disabled={uploadStatus === 'loading'}
+                          color={formik.touched.file && formik.errors.file ? "error" : "primary"}
                           sx={{ 
                             minWidth: 200,
                             height: 48,
@@ -127,20 +160,30 @@ const ExcelUploader = ({
                           {formik.values.file ? formik.values.file.name : 'Choose Excel File'}
                         </Button>
                       </label>
-                    </Grid2>
+                    </Grid>
 
-                    {/* Validation Error */}
+                    {/* File Validation Error */}
                     {formik.touched.file && formik.errors.file && (
-                      <Grid2 xs={12}>
-                        <Typography color="error" variant="caption" sx={{ mt: 1 }}>
+                      <Grid item xs={12}>
+                        <Alert 
+                          severity="error" 
+                          icon={<ErrorOutlineIcon />}
+                          sx={{ 
+                            mt: 2,
+                            '& .MuiAlert-message': { 
+                              display: 'flex',
+                              alignItems: 'center'
+                            }
+                          }}
+                        >
                           {formik.errors.file}
-                        </Typography>
-                      </Grid2>
+                        </Alert>
+                      </Grid>
                     )}
 
                     {/* Submit Button */}
-                    {formik.values.file && (
-                      <Grid2 xs={12} sx={{ mt: 2 }}>
+                    {formik.values.file && !formik.errors.file && (
+                      <Grid item xs={12} sx={{ mt: 2 }}>
                         <Button
                           type="submit"
                           variant="contained"
@@ -155,14 +198,14 @@ const ExcelUploader = ({
                         >
                           {uploadStatus === 'loading' ? 'Uploading...' : 'Upload Students'}
                         </Button>
-                      </Grid2>
+                      </Grid>
                     )}
-                  </Grid2>
+                  </Grid>
                 </Form>
               </FormikProvider>
             </Box>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Paper>
 
       {/* Success Dialog */}

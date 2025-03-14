@@ -1,4 +1,2 @@
-import { initialValues } from "./initialValues";
-import { validationSchema } from "./validations";
-
-export { initialValues, validationSchema }; 
+export { validationSchema } from './validations';
+export { initialValues } from './initialValues'; 

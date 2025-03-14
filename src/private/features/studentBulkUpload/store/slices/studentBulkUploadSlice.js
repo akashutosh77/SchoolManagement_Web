@@ -28,7 +28,10 @@ const studentBulkUploadSlice = createSlice({
       })
       .addCase(uploadStudentBulkData.rejected, (state, action) => {
         state.uploadStatus = "failed";
-        state.error = action.error.message || "Failed to upload student data";
+        state.error = action.payload || {
+          message: "Failed to upload student data",
+          errors: ["An unexpected error occurred"]
+        };
       });
   }
 });

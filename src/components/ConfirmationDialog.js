@@ -56,10 +56,12 @@ const ConfirmationDialog = ({
             {actions.map((action) => (
               <Button
                 key={action.label}
-                sx={{ fontFamily: "InterMed" }}
+                sx={{ fontFamily: "InterMed", minWidth: 100 }}
                 variant={action.variant}
                 onClick={(e) => action.handler(e)}
-              ></Button>
+              >
+                {action.label}
+              </Button>
             ))}
           </DialogActions>
         )}

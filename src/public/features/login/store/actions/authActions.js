@@ -65,7 +65,7 @@ export const loginUserWithGoogle = createAsyncThunk(
           params: { email: googleResponseData?.email }
         })
       ).data[0]
-      if (Object.keys(loginResponse).length == 0) {
+      if (Object.keys(loginResponse).length === 0) {
         return thunkAPI.rejectWithValue({ message: "User not found" })
       }
       const user = { ...googleResponseData, ...loginResponse }

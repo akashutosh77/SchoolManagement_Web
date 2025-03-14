@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { initialValues, validationSchema } from './formValues';
+import { validationSchema, initialValues } from './formValues';
 import { uploadStudentBulkData } from './store/actions/studentBulkUploadActions';
-import { selectStudentBulkUpload } from './store/slices/studentBulkUploadSlice';
+import { selectStudentBulkUpload, clearUploadData } from './store/slices/studentBulkUploadSlice';
 import ExcelUploader from "./excelUploader";
 
 const StudentBulkUpload = () => {
@@ -15,6 +15,11 @@ const StudentBulkUpload = () => {
       .unwrap()
       .then(() => {
         formik.resetForm();
+        // Reset file input
+        const fileInput = document.getElementById('file');
+        if (fileInput) {
+          fileInput.value = '';
+        }
       })
       .catch(() => {
         // Error handling is done through the redux state
@@ -22,7 +27,13 @@ const StudentBulkUpload = () => {
   };
 
   const handleCloseDialog = () => {
-    dispatch({ type: 'studentBulkUpload/resetStatus' });
+    dispatch(clearUploadData());
+    formik.resetForm();
+    // Reset file input
+    const fileInput = document.getElementById('file');
+    if (fileInput) {
+      fileInput.value = '';
+    }
   };
 
   const handleDownloadTemplate = () => {
@@ -35,18 +46,22 @@ const StudentBulkUpload = () => {
     link.remove();
   };
 
-  const handleFileChange = (event) => {
-    if (event.currentTarget.files && event.currentTarget.files[0]) {
-      formik.setFieldValue('file', event.currentTarget.files[0]);
+  const handleFileChange = async (event) => {
+    const file = event.currentTarget.files[0];
+    await formik.setFieldValue('file', file);
+    // Validate the file immediately
+    if (file) {
+      await formik.validateField('file');
+      formik.setFieldTouched('file', true, false);
     }
   };
 
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      handleSubmit(values);
-    }
+    initialValues,
+    validationSchema,
+    onSubmit: handleSubmit,
+    validateOnChange: true,
+    validateOnBlur: true
   });
 
   return (
