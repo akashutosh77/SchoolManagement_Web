@@ -2,7 +2,8 @@ export const EXCEL_TO_DB_MAPPING = {
   "Student First Name": "firstName",
   "Student Middle Name": "middleName",
   "Student Last Name": "lastName",
-  "Class Id": "classId",
+  "Class Name": "className",
+  "Section": "section",
   "Active": "isActive",
   "Admission Date": "admissionDate"
 };
@@ -10,7 +11,8 @@ export const EXCEL_TO_DB_MAPPING = {
 export const REQUIRED_FIELDS = [
   "Student First Name",
   "Student Last Name",
-  "Class Id"
+  "Class Name",
+  "Section"
 ];
 
 export const validateExcelData = (data) => {
@@ -44,12 +46,13 @@ export const validateExcelData = (data) => {
       }
     });
 
-    // Validate Class Id is a number
-    if (row["Class Id"] !== undefined && row["Class Id"] !== null) {
-      const classId = Number(row["Class Id"]);
-      if (isNaN(classId)) {
-        errors.push(`Row ${index + 1}: Class Id must be a number`);
-      }
+    // Validate Class Name and Section are strings and not too long
+    if (row["Class Name"] && typeof row["Class Name"] === 'string' && row["Class Name"].length > 50) {
+      errors.push(`Row ${index + 1}: Class Name must not exceed 50 characters`);
+    }
+    
+    if (row["Section"] && typeof row["Section"] === 'string' && row["Section"].length > 20) {
+      errors.push(`Row ${index + 1}: Section must not exceed 20 characters`);
     }
 
     // Validate Active field is boolean
