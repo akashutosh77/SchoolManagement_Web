@@ -5,7 +5,9 @@ export const REQUIRED_FIELDS = [
     "Student First Name",
     "Student Last Name",
     "Class Name",
-    "Section"
+    "Section",
+    "Active",
+    "Admission Date"
   ];
 /**
  * Map Excel data to database format using the provided mapping
